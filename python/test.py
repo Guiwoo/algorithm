@@ -1,3 +1,6 @@
+from typing import Type
+
+
 def arrayManipulation(n, queries):
     # delimit each interval [a, b] by saving
     # in deltas the difference that such
@@ -13,3 +16,23 @@ def arrayManipulation(n, queries):
         curr += k
         peek = max(peek, curr)
     return peek
+
+
+x = int(input())
+count = 0
+newX = None
+while True:
+    if x < 0 and newX == None:
+        newX = x * 10 + x
+        count += 1
+        continue
+    if newX == None:
+        newX = (x % 10) * 10 + (x // 10 + x % 10) % 10
+    else:
+        newX = (newX % 10) * 10 + (newX // 10 + newX % 10) % 10
+
+    count += 1
+    if x == newX:
+        break
+
+print(count)
