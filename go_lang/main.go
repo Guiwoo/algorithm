@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math"
 	"os"
+	"reflect"
 	"strconv"
 )
 
@@ -178,7 +179,7 @@ func bj8958() {
 	}
 }
 
-//시발 스페이스 하나 띄어쓰기 안해가지고 개빡치네 ㅅㅂ
+//스페이스 하나 띄어쓰기 안해가지고 아 죽여주세요ㅠㅠ...
 func bj4344() {
 	var c int
 	reader := bufio.NewReader(os.Stdin)
@@ -209,6 +210,57 @@ func bj4344() {
 	}
 }
 
+//정수합 구하기 리스트 안에서
+func Reduce(source, initialValue, reducer interface{}) (interface{}, error) {
+	srcV := reflect.ValueOf(source)
+	rv := reflect.ValueOf(reducer)
+	accumulator := initialValue
+	accV := reflect.ValueOf(accumulator)
+	for i := 0; i < srcV.Len(); i++ {
+		entry := srcV.Index(i)
+		// call reducer via reflection
+		reduceResults := rv.Call([]reflect.Value{
+			accV,               // send accumulator value
+			entry,              // send current source entry
+			reflect.ValueOf(i), // send current loop index
+		})
+		accV = reduceResults[0]
+	}
+	return accV.Interface(), nil
+}
+
+func Bj15596(arr []int) int {
+	sumOfInt := func(accumulator, entry, idx int) int {
+		return accumulator + entry
+	}
+
+	v, _ := Reduce(arr, 0, sumOfInt)
+	return v.(int)
+}
+
+//셀프넘버
+func bj4673() {
+	selfNumber := make(map[int]bool, 10001)
+	for i := 0; i < 10000; i++ {
+		selfNumber[i] = false
+	}
+	for i := 0; i < 10001; i++ {
+		sum := i
+		number := i
+		for j := number; j != 0; j /= 10 {
+			sum += j % 10
+		}
+		if sum <= 10000 {
+			selfNumber[sum] = true
+		}
+	}
+	for i := 1; i < len(selfNumber); i++ {
+		if selfNumber[i] == false {
+			fmt.Println(i)
+		}
+	}
+}
+
 func main() {
-	bj4344()
+	bj4673()
 }

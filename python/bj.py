@@ -106,4 +106,55 @@ def bj8958():
         print(total)
 
 
-bj8958()
+def bj15996(arr):
+    # 주어진 정수 array 합구하기
+    # answer = 0 236ms
+    # for i in range(arr):
+    #     answer += arr[i]
+    # return answer
+    return sum(arr)
+    # 60ms
+
+
+def bj4673():
+    # 점화식
+    # d(n) < 10000
+    # d(n) = d(n-1) + sum([int(i) for i in str(d(n-1))])
+    natuarl_num = set(range(1, 101))
+    generate_num = set()
+
+    for i in range(1, 101):
+        num = i + sum([int(i) for i in str(i)])
+        generate_num.add(num)
+
+    self_num = sorted(natuarl_num - generate_num)
+    for i in self_num:
+        print(i)
+
+
+def bj1065():
+    num = int(input())
+    answer = 0
+    for i in range(1, num + 1):
+        arr = [int(x) for x in str(i)]
+        if i < 100:
+            answer += 1
+        elif arr[0] - arr[1] == arr[1] - arr[2]:
+            answer += 1
+    print(num)
+
+
+print("Hansu")
+num = int(input())
+
+hansu = 0
+for i in range(1, num + 1):
+    num_list = list(map(int, str(i)))
+    if i < 100:
+        hansu += 1  # 100보다 작으면 모두 한수
+    elif num_list[0] - num_list[1] == num_list[1] - num_list[2]:
+        hansu += 1  # x의 각 자리가 등차수열이면 한수
+print(hansu)
+
+print("내가만든거")
+bj1065()
