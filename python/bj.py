@@ -1,4 +1,6 @@
-from typing import Type
+from collections import defaultdict
+import string
+import sys
 
 
 def arrayManipulation(n, queries):
@@ -134,27 +136,50 @@ def bj4673():
 
 def bj1065():
     num = int(input())
-    answer = 0
-    for i in range(1, num + 1):
+
+    if num < 100:
+        print(num)
+
+    for i in range(100, num + 1):
         arr = [int(x) for x in str(i)]
-        if i < 100:
-            answer += 1
-        elif arr[0] - arr[1] == arr[1] - arr[2]:
-            answer += 1
+        if arr[0] - arr[1] != arr[1] - arr[2]:
+            num -= 1
+
     print(num)
 
 
-print("Hansu")
-num = int(input())
+def bj3058():
+    x = int(input())
+    for _ in range(x):
+        arr = list(map(int, sys.stdin.readline().split()))
+        even = [i for i in arr if i % 2 == 0]
+        print(sum(even), min(even))
 
-hansu = 0
-for i in range(1, num + 1):
-    num_list = list(map(int, str(i)))
-    if i < 100:
-        hansu += 1  # 100보다 작으면 모두 한수
-    elif num_list[0] - num_list[1] == num_list[1] - num_list[2]:
-        hansu += 1  # x의 각 자리가 등차수열이면 한수
-print(hansu)
 
-print("내가만든거")
-bj1065()
+def bj11654():
+    letter = input()
+    print(ord(letter))
+
+
+def bj11720():
+    num = int(input())
+    answer = [0] * num
+    text = input()
+    for i in range(len(answer)):
+        answer[i] = int(text[i])
+    print(sum(answer))
+
+
+def bj10890():
+    myDict = defaultdict(int)
+    alpha = list(string.ascii_lowercase)
+    for i in range(len(alpha)):
+        myDict[alpha[i]] = -1
+    text = input()
+    for i in range(len(text)):
+        if myDict[text[i]] == -1:
+            myDict[text[i]] = i
+    print(*list(myDict.values()))
+
+
+bj10890()

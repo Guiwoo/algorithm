@@ -261,6 +261,82 @@ func bj4673() {
 	}
 }
 
+func getCount(a int) (answer int) {
+	if a < 100 {
+		return a
+	}
+	for i := 100; i <= a; i++ {
+		one := i % 10
+		ten := i / 10 % 10
+		hund := i / 100
+		if hund-ten == ten-one {
+			answer++
+		}
+	}
+	answer += 99
+	return answer
+}
+
+func bj1065() {
+	var a int
+	fmt.Scanln(&a)
+	var count = getCount(a)
+	fmt.Println(count)
+}
+
+func bj11654() {
+	var a string
+	reader := bufio.NewReader(os.Stdin)
+	writer := bufio.NewWriter(os.Stdout)
+	defer writer.Flush()
+	fmt.Fscanln(reader, &a)
+	asicc := []byte(a)
+	fmt.Println(asicc[0])
+}
+
+func bj11720() {
+	var n int
+	reader := bufio.NewReader(os.Stdin)
+	writer := bufio.NewWriter(os.Stdout)
+	fmt.Fscanln(reader, &n)
+	defer writer.Flush()
+	var text string
+	fmt.Fscanln(reader, &text)
+	var arr = make([]int, n)
+
+	for i, _ := range arr {
+		b, _ := strconv.Atoi(string(text[i]))
+		arr[i] = b
+	}
+	n = 0
+	for _, v := range arr {
+		n += v
+	}
+	fmt.Println(n)
+}
+
+func bj10809() {
+	var word string
+	reader := bufio.NewReader(os.Stdin)
+	writer := bufio.NewWriter(os.Stdout)
+	defer writer.Flush()
+
+	fmt.Fscanln(reader, &word)
+
+	arr := map[int]int{}
+	for i := 97; i < 123; i++ {
+		arr[i] = -1
+	}
+	for i, v := range word {
+		if arr[int(v)] == -1 {
+			arr[int(v)] = i
+		}
+	}
+	for i := 97; i < 123; i++ {
+		fmt.Printf("%v ", arr[i])
+	}
+}
+
 func main() {
-	bj4673()
+	bj10809()
 }
