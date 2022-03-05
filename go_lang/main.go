@@ -7,6 +7,7 @@ import (
 	"os"
 	"reflect"
 	"strconv"
+	"strings"
 )
 
 // Bufio Way
@@ -337,6 +338,234 @@ func bj10809() {
 	}
 }
 
+func bj2675() {
+	var a int
+	reader := bufio.NewReader(os.Stdin)
+	writer := bufio.NewWriter(os.Stdout)
+	defer writer.Flush()
+	fmt.Fscanln(reader, &a)
+	for i := 0; i < a; i++ {
+		fmt.Println("??")
+		var (
+			num    int
+			word   string
+			answer string
+		)
+		fmt.Fscanln(reader, &num, &word)
+		for _, v := range word {
+			answer += strings.Repeat(string(v), num)
+		}
+		fmt.Println(answer)
+	}
+}
+
+func bj1157() {
+	var a string
+	reader := bufio.NewReader(os.Stdin)
+
+	fmt.Fscanln(reader, &a)
+	var arr = make(map[string]int)
+	for _, v := range a {
+		arr[strings.ToUpper(string(v))]++
+	}
+	high := 0
+	for _, v := range arr {
+		if v > high {
+			high = v
+		}
+	}
+	answer := []string{}
+	for i, v := range arr {
+		if v == high {
+			answer = append(answer, i)
+		}
+	}
+	if len(answer) > 1 {
+		fmt.Println("?")
+	} else {
+		fmt.Println(answer[0])
+	}
+}
+
+func bj1157_copy() {
+	var input string
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Fscanln(reader, &input)
+
+	var letters = make(map[uint8]int)
+	for i := 0; i < 26; i++ {
+		letters[uint8(i)+65] = 0
+	}
+
+	for i := 0; i < len(input); i++ {
+		ascii := input[i]
+		if ascii > 90 {
+			ascii -= 32
+		}
+		letters[ascii]++
+	}
+
+	var maxVal = -1
+	var maxKey string
+	for key, val := range letters {
+		if val > maxVal {
+			maxVal = val
+			maxKey = string(key)
+		} else if val == maxVal {
+			maxKey = "?"
+		}
+	}
+
+	fmt.Println(maxKey)
+}
+
+func bj1152() {
+	var input string
+	reader := bufio.NewReader(os.Stdin)
+	input, _ = reader.ReadString('\n')
+
+	words := strings.Split(input, " ")
+	var count int
+	for i, _ := range words {
+		if words[i] != "\n" && words[i] != "" {
+			count++
+		}
+	}
+	fmt.Println(count)
+}
+
+func bj1152_copy() {
+	var input, k string
+	reader := bufio.NewReader(os.Stdin)
+	input, _ = reader.ReadString('\n')
+
+	k = strings.Trim(strings.Trim(input, "\n"), " ")
+	a := strings.Count(k, " ")
+	if len(k) == 0 {
+		fmt.Println(0)
+	} else {
+		fmt.Println(a + 1)
+	}
+}
+
+func reverse(s string) string {
+	runes := []rune(s)
+	for i, j := 0, len(runes)-1; i < j; i, j = i+1, j-1 {
+		runes[i], runes[j] = runes[j], runes[i]
+	}
+	return string(runes)
+}
+
+func bj2908() {
+	var a, b string
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Fscanln(reader, &a, &b)
+	num1, _ := strconv.Atoi(reverse(a))
+	num2, _ := strconv.Atoi(reverse(b))
+
+	if num1 > num2 {
+		fmt.Println(num1)
+	} else {
+		fmt.Println(num2)
+	}
+}
+
+func bj5622() {
+	var a string
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Fscanln(reader, &a)
+	alpha := map[int]int{}
+	for i := 65; i < 91; i++ {
+		if i < 68 {
+			alpha[i] = 3
+		}
+		if 67 < i && i < 71 {
+			alpha[i] = 4
+		}
+		if 70 < i && i < 74 {
+			alpha[i] = 5
+		}
+		if 73 < i && i < 77 {
+			alpha[i] = 6
+		}
+		if 76 < i && i < 80 {
+			alpha[i] = 7
+		}
+		if 79 < i && i < 84 {
+			alpha[i] = 8
+		}
+		if 83 < i && i < 87 {
+			alpha[i] = 9
+		}
+		if 86 < i && i < 91 {
+			alpha[i] = 10
+		}
+	}
+	var answer int
+	for _, v := range a {
+		answer += alpha[int(v)]
+	}
+	fmt.Println(answer)
+}
+
+func bj2941() {
+	var input string
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Fscanln(reader, &input)
+	arr := map[string]bool{"c=": true, "c-": true, "dz=": true, "d-": true, "lj": true, "nj": true, "s=": true, "z=": true}
+	var answer int
+	for len(input) > 0 {
+		if len(input) > 1 && arr[input[0:2]] {
+			answer++
+			input = input[2:]
+		} else if len(input) > 2 && arr[input[0:3]] {
+			answer++
+			input = input[3:]
+		} else {
+			answer++
+			input = input[1:]
+		}
+	}
+	fmt.Println(answer)
+}
+
+func contain(arr []int, char int) bool {
+	for _, v := range arr {
+		if v == char {
+			return true
+		}
+	}
+	return false
+}
+
+func bj1316() {
+	var num, answer int
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Fscanln(reader, &num)
+	for i := 0; i < num; i++ {
+		var (
+			char  int
+			words string
+			arr   []int
+		)
+		value := true
+		fmt.Fscanln(reader, &words)
+		for _, v := range words {
+			if char != int(v) && !contain(arr, int(v)) {
+				arr = append(arr, int(v))
+				char = int(v)
+			} else if contain(arr, int(v)) && char != int(v) && arr[len(arr)-1] != int(v) {
+				value = false
+				break
+			}
+		}
+		if value {
+			answer++
+		}
+	}
+	print(answer)
+}
+
 func main() {
-	bj10809()
+	bj1316()
 }

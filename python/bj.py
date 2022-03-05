@@ -182,4 +182,119 @@ def bj10890():
     print(*list(myDict.values()))
 
 
-bj10890()
+def bj2675():
+    letters = int(input())
+    for _ in range(letters):
+        answer = ""
+        num, words = input().split()
+        for i in words:
+            answer += i * int(num)
+        print(answer)
+
+
+def bj1157():
+    word = input().upper()
+    word_list = list(set(word))
+
+    cnt = []
+    for i in word_list:
+        count = word.count
+        cnt.append(count(i))
+
+    if cnt.count(max(cnt)) > 1:
+        print("?")
+
+    else:
+        print(word_list[(cnt.index(max(cnt)))])
+
+
+def bj1152():
+    letters = input().strip()
+    Larr = letters.split()
+    count = 0
+    for i in Larr:
+        if i != "\n" and i != "":
+            count += 1
+    print(count)
+
+
+def bj2908():
+    num1, num2 = input().split()
+    num1 = num1[::-1]
+    num2 = num2[::-1]
+    print(max([int(num1), int(num2)]))
+
+
+def bj5622():
+    arr = [
+        3,
+        3,
+        3,
+        4,
+        4,
+        4,
+        5,
+        5,
+        5,
+        6,
+        6,
+        6,
+        7,
+        7,
+        7,
+        8,
+        8,
+        8,
+        8,
+        9,
+        9,
+        9,
+        10,
+        10,
+        10,
+        10,
+    ]
+    letters = input()
+    answer = 0
+    for i in letters:
+        answer += arr[ord(i) - 65]
+    print(answer)
+
+
+def bj2941():
+    arr = ["c=", "c-", "dz=", "d-", "lj", "nj", "s=", "z="]
+    string = input()
+    count = 0
+    while len(string) > 0:
+        if string[0:2] in arr:
+            count += 1
+            string = string[2:]
+        elif string[0:3] in arr:
+            count += 1
+            string = string[3:]
+        else:
+            count += 1
+            string = string[1:]
+    print(count)
+
+
+def bj1316():
+    num = int(input())
+    answer = 0
+    for _ in range(num):
+        check = []
+        current = ""
+        value = True
+        for i in input():
+            if i != current and i not in check:
+                check.append(i)
+                current = i
+            if i in check and i != current and i != check[-1]:
+                value = False
+                break
+        if value:
+            answer += 1
+    print(answer)
+
+
+bj1316()
