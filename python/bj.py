@@ -1,4 +1,5 @@
 from collections import defaultdict
+import math
 import string
 import sys
 
@@ -339,4 +340,25 @@ def bj1193():
         print(1 + diff, line + 1 - diff)
 
 
-bj1193()
+def bj2869():
+    [x, y, v] = list(map(int, input().split()))
+    if v <= x:
+        print(1)
+        return
+    answer = (v - x) / (x - y)
+    if answer < 1:
+        print(math.ceil(answer + 1))
+    else:
+        print(math.ceil(answer) + 1)
+
+
+def bj2869_copy():
+    [a, b, v] = list(map(int, input().split()))
+    day = 1
+    if (v - a) % (a - b) == 0:
+        day += (v - a) / (a - b)
+    else:
+        day += (v - a) / (a - b) + 1
+
+
+bj2869()

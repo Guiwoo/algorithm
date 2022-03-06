@@ -611,6 +611,39 @@ func bj1193() {
 		count++
 	}
 }
+
+func bj2869() {
+	var a, b, c int
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Fscanf(reader, "%d %d %d", &a, &b, &c)
+	if c < a || c == a {
+		fmt.Println(1)
+		return
+	}
+	answer := float64(c-a) / float64(a-b)
+	if answer < 1 {
+		fmt.Println(math.Ceil(answer + 1))
+	} else {
+		fmt.Println(int(math.Ceil(answer) + 1))
+	}
+}
+
+func bj2869_copy() {
+	var a, b, v int
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Fscanln(reader, &a, &b, &v)
+
+	var day = 1
+
+	if (v-a)%(a-b) == 0 {
+		day += (v - a) / (a - b)
+	} else {
+		day += (v-a)/(a-b) + 1
+	}
+
+	fmt.Println(day)
+}
+
 func main() {
-	bj1193()
+	bj2869()
 }
