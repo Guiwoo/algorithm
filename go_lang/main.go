@@ -566,6 +566,51 @@ func bj1316() {
 	print(answer)
 }
 
+func bj1712() {
+	var a, b, c int
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Fscanf(reader, "%d %d %d", &a, &b, &c)
+	if a > c && b > c || b == c {
+		fmt.Println(-1)
+	} else {
+		answer := (a / (c - b)) + 1
+		fmt.Println(answer)
+	}
+}
+
+func bj2292() {
+	var num, answer int
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Fscanln(reader, &num)
+	current := 1
+	for {
+		if current >= num {
+			fmt.Println(answer + 1)
+			break
+		}
+		answer++
+		current = 6*answer + current
+	}
+}
+
+func bj1193() {
+	var target int
+	count := 1
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Fscanln(reader, &target)
+	for {
+		if current := count * (count + 1) / 2; current >= target {
+			if count%2 == 0 {
+				fmt.Printf("%d/%d", count-(current-target), 1+(current-target))
+			} else {
+				fmt.Printf("%d/%d", 1+(current-target), count-(current-target))
+			}
+			break
+		}
+		fmt.Println("카운트", count)
+		count++
+	}
+}
 func main() {
-	bj1316()
+	bj1193()
 }

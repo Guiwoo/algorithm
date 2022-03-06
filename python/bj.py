@@ -297,4 +297,46 @@ def bj1316():
     print(answer)
 
 
-bj1316()
+def bj1712():
+    [a, b, c] = list(map(int, sys.stdin.readline().split()))
+
+    if a > c and b > c or b == c:
+        print(-1)
+    else:
+        answer = (a / (c - b)) + 1
+        print(int(answer))
+
+
+def bj2292():
+    num = int(input())
+    current = 1
+    answer = 0
+    while current < num:
+        answer += 1
+        current += 6 * answer
+
+    print(answer + 1)
+
+
+def bj1193():
+    target = int(input())
+    current = 1
+    count = 2
+
+    if target == 1:
+        print(1, 1)
+        return
+
+    while current < target:
+        current += count
+        count += 1
+
+    line = count - 2
+    diff = current - target
+    if line % 2 != 0:
+        print(line + 1 - diff, 1 + diff)
+    else:
+        print(1 + diff, line + 1 - diff)
+
+
+bj1193()
