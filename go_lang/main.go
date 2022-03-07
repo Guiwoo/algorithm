@@ -644,6 +644,30 @@ func bj2869_copy() {
 	fmt.Println(day)
 }
 
+func bj10250() {
+	var given int
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Fscanln(reader, &given)
+
+	for i := 0; i < given; i++ {
+		var h, w, n int
+		fmt.Fscanln(reader, &h, &w, &n)
+		height := n % h
+		row := 0
+		if height == 0 {
+			height = h
+			row = n / h
+		} else {
+			row = n/h + 1
+		}
+		if row < 10 {
+			fmt.Printf("%d0%d\n", height, row)
+		} else {
+			fmt.Printf("%d%d\n", height, row)
+		}
+	}
+}
+
 func main() {
-	bj2869()
+	bj10250()
 }

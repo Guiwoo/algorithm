@@ -361,4 +361,21 @@ def bj2869_copy():
         day += (v - a) / (a - b) + 1
 
 
-bj2869()
+def bj10250():
+    given = int(input())
+    for _ in range(given):
+        h, w, n = map(int, input().split())
+        height = n % h
+        if height == 0:
+            height = h
+            row = n // h
+        else:
+            row = n // h + 1
+
+        if row < 10:
+            print(f"{height}0{row}")
+        else:
+            print(f"{height}{row}")
+
+
+bj10250()
