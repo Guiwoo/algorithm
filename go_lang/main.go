@@ -668,6 +668,47 @@ func bj10250() {
 	}
 }
 
+func arrSum(arr []int) int {
+	c := 0
+	for _, v := range arr {
+		c += v
+	}
+	return c
+}
+
+func makeNewSum(arr []int) []int {
+	newArr := []int{}
+	for i, _ := range arr {
+		newArr = append(newArr, arrSum(arr[:i+1]))
+	}
+	return newArr
+}
+
+func bj2775() {
+	var count int
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Fscanln(reader, &count)
+	for i := 0; i < count; i++ {
+		var floor, rooms int
+
+		fmt.Fscanln(reader, &floor)
+		fmt.Fscanln(reader, &rooms)
+
+		arr := []int{}
+		for i := 0; i < rooms; i++ {
+			arr = append(arr, (i+1)*(i+2)/2)
+		}
+		if floor == 1 {
+			fmt.Println(arr[rooms-1])
+		} else {
+			for j := 1; j < floor; j++ {
+				arr = makeNewSum(arr)
+			}
+			fmt.Println(arr[len(arr)-1])
+		}
+	}
+}
+
 func main() {
-	bj10250()
+	bj2775()
 }

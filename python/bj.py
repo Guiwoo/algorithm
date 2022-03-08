@@ -2,6 +2,7 @@ from collections import defaultdict
 import math
 import string
 import sys
+from typing import List
 
 
 def arrayManipulation(n, queries):
@@ -378,4 +379,28 @@ def bj10250():
             print(f"{height}{row}")
 
 
-bj10250()
+def makeNewSum(arr: List):
+    newArr = [0] * len(arr)
+    for i in range(len(arr)):
+        newArr[i] = sum(arr[: i + 1])
+    return newArr
+
+
+def bj2775():
+    num = int(input())
+
+    for _ in range(num):
+        n = int(input())
+        k = int(input())
+
+        arr = [x * (x + 1) // 2 for x in range(1, k + 1)]
+        # for loop 돌면서 더하자
+        if n == 1:
+            print(arr[k - 1])
+        else:
+            for _ in range(1, n):
+                arr = makeNewSum(arr)
+            print(arr[len(arr) - 1])
+
+
+bj2775()
