@@ -1,8 +1,9 @@
 from collections import defaultdict
+from collections import deque
+import itertools
 import math
 import string
 import sys
-from typing import List
 
 
 def arrayManipulation(n, queries):
@@ -379,7 +380,7 @@ def bj10250():
             print(f"{height}{row}")
 
 
-def makeNewSum(arr: List):
+def makeNewSum(arr):
     newArr = [0] * len(arr)
     for i in range(len(arr)):
         newArr[i] = sum(arr[: i + 1])
@@ -403,4 +404,55 @@ def bj2775():
             print(arr[len(arr) - 1])
 
 
-bj2775()
+def bj22352():
+    ROW, COLUMN = map(int, input().split())
+
+    graph = []
+
+    for _ in range(1, 3):
+        for i in range(ROW):
+            graph.append(list(map(int, input().split())))
+
+    graph1 = graph[:ROW]
+    graph2 = graph[ROW:]
+
+    flag = True
+    for r in range(ROW):
+        for c in range(COLUMN):
+            if graph1[r][c] != graph2[r][c]:
+                bfs(r, c, graph2[r][c], graph1[r][c], graph1, ROW, COLUMN)
+                flag = False
+        if flag == False:
+            break
+
+    if graph1 == graph2:
+        print("YES")
+    else:
+        print("NO")
+
+
+def bfs(r, c, target, current, graph, ROW, COLUMN):
+    queue = deque([(r, c)])
+    visited = [[False] * COLUMN for _ in range(ROW)]
+    dx = [-1, 1, 0, 0]
+    dy = [0, 0, -1, 1]
+    while queue:
+        x, y = queue.popleft()
+        graph[x][y] = target
+
+        for i in range(4):
+            nx = x + dx[i]
+            ny = y + dy[i]
+
+            if nx < 0 or ny < 0 or nx >= ROW or ny >= COLUMN:
+                continue
+            if (
+                graph[nx][ny] == current
+                and graph[nx][ny] != target
+                and visited[nx][ny] != True
+            ):
+                visited[nx][ny] = True
+                queue.append((nx, ny))
+
+
+bj22352()
