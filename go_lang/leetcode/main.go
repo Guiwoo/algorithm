@@ -1,6 +1,10 @@
 package main
 
-import "fmt"
+import (
+	"bufio"
+	"fmt"
+	"os"
+)
 
 // func searchNum(nums []int, target int) (int, bool) {
 // 	for i, v := range nums {
@@ -45,8 +49,45 @@ func twoSum(nums []int, target int) []int {
 	return nil
 }
 
+func arrChecker(arr []int, target int) (bool, int) {
+	checker := make(map[int]bool)
+	index := make(map[int]int)
+	for i, v := range arr {
+		checker[int(v)] = true
+		index[int(v)] = i
+	}
+	return checker[target], index[target]
+}
+
+func lengthOfLongestSubstring(s string) int {
+
+	arr := []int{}
+	count := 0
+
+	for _, v := range s {
+		exsit, index := arrChecker(arr, int(v))
+		if !exsit {
+			arr = append(arr, int(v))
+		}
+		if exsit && index > -1 {
+			if len(arr) > count {
+				count = len(arr)
+			}
+			arr = arr[index+1:]
+			arr = append(arr, int(v))
+		}
+	}
+	if len(arr) > count {
+		return len(arr)
+	}
+	fmt.Println(arr)
+	return count
+}
+
 func main() {
-	var arr = []int{3, 3}
-	answer := twoSum(arr, 9)
-	fmt.Println(answer)
+	var input string
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Fscanln(reader, &input)
+	a := lengthOfLongestSubstring(input)
+	fmt.Println(a)
 }
