@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"strings"
 )
 
 // func searchNum(nums []int, target int) (int, bool) {
@@ -84,10 +85,31 @@ func lengthOfLongestSubstring(s string) int {
 	return count
 }
 
+func lengthOfLongestSubstring2(s string) int {
+	var highestCount, distance, prevPos int
+	prevPos = -1
+	for i, v := range s {
+		c := string(v)
+		pos := strings.LastIndex(s[:i], c)
+		fmt.Println(s[:i])
+		if pos > prevPos {
+			fmt.Println("running", c, pos, prevPos)
+			prevPos = pos
+		}
+		distance = i - prevPos
+		if distance > highestCount {
+			highestCount = distance
+		}
+		fmt.Printf("Leeter: %s\nPosition: %d\nPrevPos: %d\nCurrent Index: %d\n", string(v), pos, prevPos, i)
+		fmt.Printf("Distance: %d\n\n", distance)
+	}
+	return highestCount
+}
+
 func main() {
 	var input string
 	reader := bufio.NewReader(os.Stdin)
 	fmt.Fscanln(reader, &input)
-	a := lengthOfLongestSubstring(input)
+	a := lengthOfLongestSubstring2(input)
 	fmt.Println(a)
 }
