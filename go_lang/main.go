@@ -709,6 +709,24 @@ func bj2775() {
 	}
 }
 
+func bj2839() {
+	var num, result int
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Fscanln(reader, &num)
+	for num >= 0 {
+		if num%5 == 0 {
+			result += num / 5
+			fmt.Println(result)
+			break
+		}
+		num -= 3
+		result++
+	}
+	if num < 0 {
+		fmt.Println(-1)
+	}
+}
+
 func main() {
-	bj2775()
+	bj2839()
 }
