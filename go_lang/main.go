@@ -144,6 +144,93 @@ func bj11652() {
 	print(n)
 }
 
+//에라토네스 체 구하기 나만의 방법
+func bj1929() {
+	var a, b int
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Fscanln(reader, &a, &b)
+
+	isPrime := func(num int) bool {
+		if num == 1 {
+			return false
+		}
+		for j := 2; j*j <= num; j++ {
+			if num%j == 0 {
+				return false
+			}
+		}
+		return true
+	}
+	arr := make([]int, b-a+1)
+	for i := 0; i < len(arr); i++ {
+		arr[i] = a + i
+		if arr[i] == 1 || arr[i] == -1 {
+			continue
+		}
+		if isPrime(arr[i]) {
+			fmt.Println(arr[i])
+			for j := 1; j*arr[i]+i < len(arr); j++ {
+				arr[j*arr[i]+i] = -1
+			}
+		}
+	}
+}
+
+//에라토네스 체 구하기 고랭 배운방법
+func bj1929_ver2() {
+	var decimal []bool
+	var minV, maxV int
+	isPrime := func(n int) {
+		for i := 0; i <= n; i++ {
+			decimal = append(decimal, true)
+		}
+		decimal[0] = false
+		decimal[1] = false
+		for i := 2; i <= n; i++ {
+			if decimal[i] {
+				for j := 2; i*j <= n; j++ {
+					decimal[i*j] = false
+				}
+			}
+		}
+	}
+
+	reader := bufio.NewReader(os.Stdin)
+	writer := bufio.NewWriter(os.Stdout)
+	defer writer.Flush()
+	fmt.Fscanf(reader, "%d %d", &minV, &maxV)
+	isPrime(maxV)
+	for i := minV; i <= maxV; i++ {
+		if decimal[i] {
+			fmt.Fprintln(writer, i)
+		}
+	}
+}
+
+//에라토네스 체 구하기 파이썬 방법 응용
+func bj1920_ver3() {
+	var minV, maxV int
+	reader := bufio.NewReader(os.Stdin)
+	writer := bufio.NewWriter(os.Stdout)
+	defer writer.Flush()
+
+	fmt.Fscanf(reader, "%d %d", &minV, &maxV)
+	arr := make([]bool, maxV+1)
+	arr[0], arr[1] = true, true
+	for i := 2; i*i < maxV; i++ {
+		if !arr[i] {
+			for j := i + i; j < len(arr); j = j + i {
+				arr[j] = true
+			}
+		}
+	}
+	for k := minV; k < maxV; k++ {
+		if !arr[k] {
+			fmt.Println(k)
+		}
+	}
+}
+
 func main() {
-	bj11652()
+	bj1920_ver3()
 }

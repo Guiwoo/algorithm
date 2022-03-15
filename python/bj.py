@@ -93,4 +93,21 @@ def bj11653_ver2():
     print(n)
 
 
-bj11653_ver2()
+# 에라토네스 체 구현하기
+def bj1929():
+    (a, b) = map(int, input().split())
+
+    arr = [True] * (b + 1)
+    arr[0], arr[1] = False, False
+
+    for i in range(2, int(b**0.5) + 1):
+        if arr[i]:
+            for j in range(i + i, len(arr), i):
+                arr[j] = False
+
+    for i in range(a, b + 1):
+        if arr[i] == True:
+            print(i)
+
+
+bj1929()

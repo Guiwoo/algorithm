@@ -1,5 +1,5 @@
 var fs = require("fs");
-var nums = parseInt(fs.readFileSync("stdin.txt").toString());
+var nums = fs.readFileSync("stdin.txt").toString().split(" ");
 // 제출용 var nums = fs.readFileSync('/dev/stdin').toString().split("\n");
 
 const bj10757 = () => {
@@ -72,19 +72,40 @@ const bj2581 = () => {
 };
 
 const bj11653 = () => {
-  if (nums === 1) {
+  if (n === 1) {
     return;
   }
   let i = 2;
-  while (i * i <= nums) {
-    if (nums % i === 0) {
+  while (!(i * i > n)) {
+    if (n % i === 0) {
+      n = Math.floor(n / i);
       console.log(i);
-      nums = Math.floor(nums / i);
     } else {
       i++;
     }
   }
-  console.log(nums);
+  console.log(n);
 };
 
-bj11653();
+//에라토네스 체 구현하기
+const bj1929 = () => {
+  const [n, m] = nums;
+  let arr = Array(+m + 1).fill(true);
+  (arr[0] = false), (arr[1] = false);
+
+  for (let i = 2; i * i < +m + 1; i++) {
+    if (arr[i]) {
+      for (let j = i + i; j < arr.length; j = j + i) {
+        arr[j] = false;
+      }
+    }
+  }
+
+  for (let k = n; k < +m + 1; k++) {
+    if (arr[k]) {
+      console.log(k);
+    }
+  }
+};
+
+bj1929();
