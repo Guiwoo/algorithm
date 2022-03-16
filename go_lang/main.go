@@ -231,6 +231,34 @@ func bj1920_ver3() {
 	}
 }
 
+func bj4948() {
+	reader := bufio.NewReader(os.Stdin)
+	writer := bufio.NewWriter(os.Stdout)
+	defer writer.Flush()
+	for {
+		var a, count int
+		fmt.Fscanln(reader, &a)
+		if a == 0 {
+			break
+		}
+		arr := make([]bool, a*2+1)
+		arr[0], arr[1] = true, true
+		for i := 2; i*i < a*2+1; i++ {
+			if !arr[i] {
+				for j := i + i; j < len(arr); j = j + i {
+					arr[j] = true
+				}
+			}
+		}
+		for i := a + 1; i < a*2+1; i++ {
+			if !arr[i] {
+				count++
+			}
+		}
+		fmt.Println(count)
+	}
+}
+
 func main() {
-	bj1920_ver3()
+	bj4948()
 }
