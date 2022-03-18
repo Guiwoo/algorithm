@@ -259,6 +259,40 @@ func bj4948() {
 	}
 }
 
+func bj9202() {
+
+	primeList := func() []bool {
+		arr := make([]bool, 10001)
+		arr[0], arr[1] = true, true
+		for i := 2; i < 10001; i++ {
+			if !arr[i] {
+				for j := i + i; j < 10001; j = j + i {
+					arr[j] = true
+				}
+			}
+		}
+		return arr
+	}
+
+	var num int
+	reader := bufio.NewReader(os.Stdin)
+	writer := bufio.NewWriter(os.Stdout)
+	defer writer.Flush()
+
+	fmt.Fscanln(reader, &num)
+	arr := primeList()
+	for i := 0; i < num; i++ {
+		var target int
+		fmt.Fscanln(reader, &target)
+		for j := target / 2; j > 1; j-- {
+			if !arr[j] && !arr[target-j] {
+				fmt.Fprintln(writer, j, target-j)
+				break
+			}
+		}
+	}
+}
+
 func main() {
-	bj4948()
+	bj9202()
 }
