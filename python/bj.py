@@ -176,7 +176,7 @@ def bj1085():
     print(min(x, y, w - x, h - y))
 
 
-def bj3090():
+def bj3009():
     myDictX = defaultdict(int)
     myDictY = defaultdict(int)
     for i in range(3):
@@ -193,4 +193,20 @@ def bj3090():
             print(i)
 
 
-bj3090()
+def bj4153():
+    while True:
+        a, b, c = map(int, sys.stdin.readline().split())
+        if a == 0:
+            break
+        big = max(a, b, c)
+        if (
+            a * a + b * b == big * big
+            or b * b + c * c == big * big
+            or a * a + c * c == big * big
+        ):
+            sys.stdout.writelines("right\n")
+        else:
+            sys.stdout.writelines("wrong\n")
+
+
+bj4153()
