@@ -1,4 +1,7 @@
+from collections import defaultdict
+import sys
 import math
+from re import A
 
 
 def bj1978():
@@ -110,4 +113,84 @@ def bj1929():
             print(i)
 
 
-bj1929()
+def bj4948():
+    while True:
+        count = 0
+        num = int(input())
+        if num == 0:
+            break
+        arr = [True] * (num * 2 + 1)
+        arr[0], arr[1] = False, False
+
+        for i in range(2, int(num * 2**0.5) + 1):
+            if arr[i]:
+                for j in range(i + i, len(arr), i):
+                    arr[j] = False
+
+        print(arr[num + 1 : num * 2 + 1].count(True))
+
+
+def bj9020():
+    amIPrime = [False] + [False] + [True] * 9999
+    for i in range(2, 101):
+        if amIPrime[i]:
+            for j in range(i * i, 10001, i):
+                amIPrime[j] = False
+    num = int(input())
+    for i in range(num):
+        target = int(input())
+
+        a = target // 2
+        b = a
+
+        while True:
+            if amIPrime[a] and amIPrime[b]:
+                print(f"{a} {b}")
+                break
+            a -= 1
+            b += 1
+
+
+def bj9020_ver2():
+    prime = [1 for i in range(10001)]
+    prime[0], prime[1] = 0, 0
+
+    num = 2
+    while num <= int(10001 ** (0.5)):
+        if prime[num]:
+            for i in range(num + num, 10001, num):
+                prime[i] = 0
+        num += 1
+
+    T = int(sys.stdin.readline())
+    for test in range(T):
+        n = int(sys.stdin.readline())
+        for i in range(n // 2, 2, -1):
+            if prime[i] and prime[n - i]:
+                print(i, n - i)
+                break
+
+
+def bj1085():
+    x, y, w, h = map(int, input().split())
+    print(min(x, y, w - x, h - y))
+
+
+def bj3090():
+    myDictX = defaultdict(int)
+    myDictY = defaultdict(int)
+    for i in range(3):
+        x, y = map(int, input().split())
+        myDictX[x] += 1
+        myDictY[y] += 1
+
+    for i in myDictX.keys():
+        if myDictX[i] != 2:
+            print(i, end=" ")
+
+    for i in myDictY.keys():
+        if myDictY[i] != 2:
+            print(i)
+
+
+bj3090()
