@@ -1,5 +1,5 @@
 var fs = require("fs");
-var nums = fs.readFileSync("stdin.txt").toString().split(" ");
+var nums = fs.readFileSync("stdin.txt").toString();
 // 제출용 var nums = fs.readFileSync('/dev/stdin').toString().split("\n");
 
 const bj10757 = () => {
@@ -108,4 +108,12 @@ const bj1929 = () => {
   }
 };
 
-bj1929();
+const bj3053 = () => {
+  const pi = Math.PI;
+  const answer1 = (+nums) ** 2 * pi;
+  const answer2 = (+nums) ** 2 * 2;
+  console.log(answer1.toFixed(6));
+  console.log(answer2.toFixed(6));
+};
+
+bj3053();

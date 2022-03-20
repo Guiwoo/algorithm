@@ -1,7 +1,7 @@
 from collections import defaultdict
+from dis import dis
 import sys
 import math
-from re import A
 
 
 def bj1978():
@@ -209,4 +209,32 @@ def bj4153():
             sys.stdout.writelines("wrong\n")
 
 
-bj4153()
+def bj3053():
+    r = int(input())
+    print(f"{math.pi*r**2:.6f}\n{r**2*2:.6f}")
+
+
+def bj1002():
+    n = int(input())
+    for i in range(n):
+        arr = list(map(int, input().split()))
+        # arr = [x1,y1,r1,x2,y2,r2]
+        disX = arr[0] - arr[3]
+        disY = arr[1] - arr[4]
+
+        addR = (arr[2] + arr[5]) ** 2
+        subR = (arr[2] - arr[5]) ** 2
+
+        d = (disX) ** 2 + (disY) ** 2
+
+        if d < addR and d > subR:
+            print(2)
+        elif d == addR or d == subR and d != 0:
+            print(1)
+        elif d < subR or d > subR:
+            print(0)
+        elif d == 0 and arr[2] == arr[5]:
+            print(-1)
+
+
+bj1002()

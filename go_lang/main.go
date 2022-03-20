@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"math"
 	"os"
 )
 
@@ -293,6 +294,112 @@ func bj9202() {
 	}
 }
 
+func bj1085() {
+	minV := func(num1 int, num2 int) int {
+		if num1 > num2 {
+			return num2
+		}
+		return num1
+	}
+	var x, y, w, h int
+	reader := bufio.NewReader(os.Stdin)
+	writer := bufio.NewWriter(os.Stdout)
+	defer writer.Flush()
+
+	fmt.Fscanln(reader, &x, &y, &w, &h)
+	minX := minV(x, w-x)
+	minY := minV(y, h-y)
+	fmt.Fprintln(writer, minV(minX, minY))
+}
+
+func bj3009() {
+
+	reader := bufio.NewReader(os.Stdin)
+
+	arrX := map[int]int{}
+	arrY := map[int]int{}
+
+	for i := 0; i < 3; i++ {
+		var a, b int
+		fmt.Fscanln(reader, &a, &b)
+		arrX[a] += 1
+		arrY[b] += 1
+	}
+	var x, y int
+	for i, v := range arrX {
+		if v != 2 {
+			x = i
+		}
+	}
+	for i, v := range arrY {
+		if v != 2 {
+			y = i
+		}
+	}
+	fmt.Println(x, y)
+}
+
+func bj4153() {
+	reader := bufio.NewReader(os.Stdin)
+	writer := bufio.NewWriter(os.Stdout)
+	defer writer.Flush()
+
+	for {
+		var a, b, c int
+		fmt.Fscanln(reader, &a, &b, &c)
+		if a == 0 {
+			break
+		} else {
+			a *= a
+			b *= b
+			c *= c
+			if a+b == c || a+c == b || b+c == a {
+				fmt.Fprintln(writer, "right")
+			} else {
+				fmt.Fprintln(writer, "wrong")
+			}
+		}
+	}
+}
+
+func bj3052() {
+	var r float64
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Fscanln(reader, &r)
+
+	pi := math.Pi
+
+	fmt.Printf("%.6f\n%.6f", r*r*pi, r*r*2)
+}
+
+func bj1002() {
+	var num int
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Fscanln(reader, &num)
+	for i := 0; i < num; i++ {
+		var x1, y1, r1, y2, x2, r2 int
+		fmt.Fscanf(reader, "%d %d %d %d %d %d\n", &x1, &y1, &r1, &x2, &y2, &r2)
+
+		var distanceX = x1 - x2
+		var distanceY = y1 - y2
+
+		var addR = math.Pow(float64(r1+r2), 2)
+		var subR = math.Pow(float64(r1-r2), 2)
+
+		var d = math.Pow(float64(distanceX), 2) + math.Pow(float64(distanceY), 2)
+
+		if d < addR && d > subR {
+			fmt.Println(2)
+		} else if d == addR || d == subR && d != 0 {
+			fmt.Println(1)
+		} else if d < subR || d > addR {
+			fmt.Println(0)
+		} else if d == 0 && r1 == r2 {
+			fmt.Println(-1)
+		}
+	}
+}
+
 func main() {
-	bj9202()
+	bj1002()
 }
