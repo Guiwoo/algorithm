@@ -1,20 +1,29 @@
 package main
 
-func carpet(brown, yellow int) []int {
-	var x, y int
-	y = 3
-	x = (brown-(y*2))/2 + 2
+import (
+	"bufio"
+	"fmt"
+	"os"
+)
 
-	for y >= 3 {
-		if (x-2)*(y-2) == yellow {
-			break
+func bj10872() {
+	var a int
+	reader := bufio.NewReader(os.Stdin)
+	fmt.Fscanln(reader, &a)
+
+	total := 1
+	var fct = func(n int) {}
+	fct = func(n int) {
+		if n < 1 {
+			return
 		}
-		x -= 1
-		y += 1
+		total *= n
+		fct(n - 1)
 	}
-	return []int{x, y}
+	fct(a)
+	fmt.Println(total)
 }
 
 func main() {
-
+	bj10872()
 }
