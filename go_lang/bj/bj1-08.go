@@ -105,7 +105,7 @@ func bj2577() {
 }
 
 //여러값주고 안에서 나머지 값 찾기
-func bj3052() {
+func bj3052l() {
 	a := 42
 	reader := bufio.NewReader(os.Stdin)
 	writer := bufio.NewWriter(os.Stdout)
