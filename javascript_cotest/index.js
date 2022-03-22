@@ -116,4 +116,23 @@ const bj3053 = () => {
   console.log(answer2.toFixed(6));
 };
 
-bj3053();
+const bj10872 = () => {
+  const fct = (n) => {
+    if (n < 1) {
+      return 1;
+    }
+    return n * fct(n - 1);
+  };
+  console.log(fct(+nums));
+};
+
+const bj10870 = () => {
+  const fibo = (n) => {
+    if (n === 0) return 0;
+    else if (n === 1) return 1;
+    return fibo(n - 2) + fibo(n - 1);
+  };
+  console.log(fibo(+nums));
+};
+
+bj10870();

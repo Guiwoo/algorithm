@@ -237,4 +237,36 @@ def bj1002():
             print(-1)
 
 
-bj1002()
+def bjTest():
+    N, M = 3, 2
+    rs = []
+    chk = [False] * 4
+
+    def recur(num):
+        if num == M:
+            print(rs)
+            return
+        for i in range(1, 4):
+            if chk[i] == False:
+                chk[i] = True
+                rs.append(i)
+                recur(num + 1)
+                chk[i] = False
+                rs.pop()
+
+    recur(0)
+
+
+def bj10870():
+    def fibo(n):
+        if n == 0:
+            return 0
+        elif n == 1:
+            return 1
+        return fibo(n - 2) + fibo(n - 1)
+
+    n = int(input())
+    print(fibo(n))
+
+
+bj10870()

@@ -16,27 +16,35 @@ import (
 **/
 
 func GuessNum100() {
+	var cnt int
 	rand.Seed(time.Now().UnixNano())
 	reader := bufio.NewReader(os.Stdin)
 
 	checker := func(num *int, target *int) {
 		if *num > *target {
-			fmt.Println("큽니다")
+			fmt.Println("지정 숫자 보다 큽니다")
 		} else {
-			fmt.Println("작습니다")
+			fmt.Println("지정 숫자 보다 작습니다")
 		}
 	}
-	target := rand.Intn(99) + 1
-	fmt.Println("숫자가 정해졌습니다, 숫자를 입력해주세요")
+	
+	target := rand.Intn(100) + 1
 
+	fmt.Println("숫자가 정해졌습니다, 숫자를 입력해주세요(1~100):")
 	for {
 		var n int
-		fmt.Fscanln(reader, &n)
+		_, err := fmt.Fscanln(reader, &n)
+		if err != nil {
+			reader.ReadString('\n')
+			fmt.Println("숫자를 입력해주세요")
+			continue
+		}
 		if n == target {
-			fmt.Println("정답입니다.")
+			fmt.Println("정답입니다. 총 진행한 횟수", cnt)
 			return
 		} else {
 			checker(&n, &target)
+			cnt++
 		}
 	}
 }
