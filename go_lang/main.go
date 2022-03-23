@@ -5,8 +5,6 @@ import (
 	"fmt"
 	"os"
 	"strings"
-
-	"github.com/guiwoo/go_lang/tucker"
 )
 
 func bj10872() {
@@ -77,5 +75,5 @@ func bj2447() {
 }
 
 func main() {
-	tucker.GuessNum100()
+
 }
