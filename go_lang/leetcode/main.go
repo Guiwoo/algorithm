@@ -195,6 +195,7 @@ func Palindrome_ver2(s string) string {
 		checkPalindrome(center, center)
 		checkPalindrome(center, center+1)
 	}
+	return s[start : end+1]
 }
 
 func main() {
