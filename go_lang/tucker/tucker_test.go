@@ -69,7 +69,7 @@ func TestList(t *testing.T) {
 		fmt.Printf("%d\n", elapsed)
 	})
 
-	t.Run("Go Routine twice", func(t *testing.T) {
+	t.Run("Go Routine", func(t *testing.T) {
 		startTime := time.Now()
 		answer := goRoutine(&arr)
 		elapsed := time.Since(startTime)

@@ -7,6 +7,8 @@ import (
 	"os"
 	"strconv"
 	"strings"
+
+	"github.com/guiwoo/go_lang/tucker"
 )
 
 /**
@@ -402,5 +404,5 @@ func bj10974() {
 }
 
 func main() {
-	bj10974()
+	tucker.ChannelEx()
 }

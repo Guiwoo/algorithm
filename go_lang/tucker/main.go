@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"math/rand"
 	"os"
+	"sync"
 	"time"
 )
 
@@ -27,7 +28,7 @@ func GuessNum100() {
 			fmt.Println("지정 숫자 보다 작습니다")
 		}
 	}
-	
+
 	target := rand.Intn(100) + 1
 
 	fmt.Println("숫자가 정해졌습니다, 숫자를 입력해주세요(1~100):")
@@ -47,4 +48,20 @@ func GuessNum100() {
 			cnt++
 		}
 	}
+}
+
+func square(wg *sync.WaitGroup, ch chan int) {
+	n := <-ch
+	time.Sleep(time.Second)
+	fmt.Println("Square: ", n*n)
+	wg.Done()
+}
+
+func ChannelEx() {
+	var wg sync.WaitGroup
+	ch := make(chan int)
+	wg.Add(1)
+	go square(&wg, ch)
+	ch <- 9
+	wg.Wait()
 }
