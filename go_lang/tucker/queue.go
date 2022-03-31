@@ -22,7 +22,7 @@ func (q *QueueBySlice) Push(a interface{}) {
 
 func (q *QueueBySlice) Pop() (interface{}, error) {
 	if len(q.Data) == 0 {
-		return 0, errors.New("cant pop out of index")
+		return 0, errors.New("Cant pop out of index")
 	}
 	poped := q.Data[0]
 	q.Data = q.Data[1:]
