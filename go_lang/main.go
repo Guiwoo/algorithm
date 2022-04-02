@@ -7,8 +7,6 @@ import (
 	"os"
 	"strconv"
 	"strings"
-
-	"github.com/guiwoo/go_lang/tucker"
 )
 
 /**
@@ -403,6 +401,51 @@ func bj10974() {
 	recur(0)
 }
 
+func bj2750() {
+	// var n int
+	quickSort := func(arr []int, start, end int) {}
+	quickSort = func(arr []int, start, end int) {
+		if start >= end {
+			return
+		}
+		pivot := start
+		left := start + 1
+		right := end
+
+		for left <= right {
+			for left <= end && arr[left] <= arr[pivot] {
+				left++
+			}
+			for right > start && arr[right] >= arr[pivot] {
+				right--
+			}
+			if left > right {
+				arr[right], arr[pivot] = arr[pivot], arr[right]
+			} else {
+				arr[left], arr[right] = arr[right], arr[left]
+			}
+		}
+		quickSort(arr, start, right-1)
+		quickSort(arr, right+1, end)
+	}
+
+	// reader := bufio.NewReader(os.Stdin)
+	// fmt.Fscanln(reader, &n)
+
+	// arr := make([]int, n)
+	arr := []int{9, 6, 5, 2, 4}
+	// for i, _ := range arr {
+	// 	var num int
+	// 	fmt.Fscanln(reader, &num)
+	// 	arr[i] = num
+	// }
+	// sort.Ints(arr)
+	quickSort(arr, 0, len(arr)-1)
+	for _, v := range arr {
+		fmt.Println(v)
+	}
+}
+
 func main() {
-	tucker.ChannelEx()
+	bj2750()
 }
