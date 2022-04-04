@@ -198,5 +198,88 @@ func Palindrome_ver2(s string) string {
 	return s[start : end+1]
 }
 
+func zigzag_myanswer() {
+	var numsRow = 3
+	var arr = make([][]rune, numsRow)
+	s := "PAYPALISHIRING"
+	current := 0
+	for current <= len(s) {
+		if current+numsRow < len(s) {
+			for i, v := range s[current : current+numsRow] {
+				arr[i%numsRow] = append(arr[i%numsRow], v)
+			}
+		} else {
+			for i, v := range s[current:] {
+				arr[i%numsRow] = append(arr[i%numsRow], v)
+			}
+		}
+		current = current + numsRow*2 - 2
+		if current < len(s) && numsRow > 2 {
+			target := numsRow - 2
+			for i, v := range s[current-(target) : current] {
+				arr[target-i] = append(arr[target-i], v)
+			}
+		}
+	}
+	var answer = []rune{}
+	for i, _ := range arr {
+		for j, _ := range arr[i] {
+			answer = append(answer, arr[i][j])
+		}
+	}
+	fmt.Println(string(answer))
+}
+
+func zigzag_ver2() {
+	var numRows = 3
+	s := "PAYPALISHIRING"
+	result := make([][]byte, numRows)
+
+	goDown := true
+	traverseIdx := 0
+
+	for i := 0; i < len(s); i++ {
+		result[traverseIdx] = append(result[traverseIdx], s[i])
+		if traverseIdx == len(result)-1 {
+			goDown = false
+		}
+		if traverseIdx == 0 {
+			goDown = true
+		}
+
+		if goDown {
+			traverseIdx++
+		} else {
+			traverseIdx--
+		}
+	}
+
+	output := ""
+	for _, bytes := range result {
+		output += string(bytes)
+	}
+	fmt.Println(output)
+}
+
 func main() {
+	var numRows = 1
+	var arr = make([][]rune, numRows)
+	s := "A"
+	if numRows == 0 || numRows == 1 {
+		fmt.Println(s)
+	}
+	current := 0
+	for i, v := range s {
+		arr[current] = append(arr[current], v)
+		if (i/(numRows-1))%2 == 0 {
+			current++
+		} else {
+			current--
+		}
+	}
+	result := ""
+	for _, v := range arr {
+		result += string(v[:])
+	}
+	fmt.Println(result)
 }
