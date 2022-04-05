@@ -2,7 +2,9 @@ package main
 
 import (
 	"fmt"
+	"math"
 	"sort"
+	"strconv"
 	"strings"
 )
 
@@ -282,6 +284,26 @@ func zigzag_ver3_from_python() {
 		result += string(v[:])
 	}
 	fmt.Println(result)
+}
+
+//와 처음 100 퍼센트 받았다 신난다 post 도 쓰고
+// https://leetcode.com/problems/reverse-integer/discuss/1917339/Go-Solving
+func reverse(x int) (answer int) {
+	b := ""
+	numRange := (1 << 31)
+	if x < 0 {
+		b += "-"
+		x = int(math.Abs(float64(x)))
+	}
+	for x > 0 {
+		b += fmt.Sprint(x % 10)
+		x /= 10
+	}
+	answer, _ = strconv.Atoi(b)
+	if answer > numRange || answer < -numRange {
+		return 0
+	}
+	return answer
 }
 
 func main() {
