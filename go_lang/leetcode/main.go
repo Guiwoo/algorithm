@@ -198,36 +198,36 @@ func Palindrome_ver2(s string) string {
 	return s[start : end+1]
 }
 
-func zigzag_myanswer() {
-	var numsRow = 3
-	var arr = make([][]rune, numsRow)
-	s := "PAYPALISHIRING"
-	current := 0
-	for current <= len(s) {
-		if current+numsRow < len(s) {
-			for i, v := range s[current : current+numsRow] {
-				arr[i%numsRow] = append(arr[i%numsRow], v)
-			}
-		} else {
-			for i, v := range s[current:] {
-				arr[i%numsRow] = append(arr[i%numsRow], v)
-			}
-		}
-		current = current + numsRow*2 - 2
-		if current < len(s) && numsRow > 2 {
-			target := numsRow - 2
-			for i, v := range s[current-(target) : current] {
-				arr[target-i] = append(arr[target-i], v)
-			}
-		}
+func zigzag_myanswer(numRows int, s string) string {
+	// s := "PAYPALISHIRING"
+	// numRows := 3
+	if numRows < 2 {
+		return s
 	}
-	var answer = []rune{}
+	var arr = make([]*[]rune, numRows)
 	for i, _ := range arr {
-		for j, _ := range arr[i] {
-			answer = append(answer, arr[i][j])
+		arr[i] = &[]rune{}
+	}
+	current := 0
+	goDown := false
+	for i, v := range s {
+		*arr[current] = append(*arr[current], v)
+		if i%(numRows-1) == 0 {
+			goDown = !goDown
+		}
+		if goDown {
+			current++
+		} else {
+			current--
 		}
 	}
-	fmt.Println(string(answer))
+
+	var answer = ""
+	for _, v := range arr {
+		a := *v
+		answer += string(a)
+	}
+	return string(answer)
 }
 
 func zigzag_ver2() {
@@ -260,13 +260,13 @@ func zigzag_ver2() {
 	}
 	fmt.Println(output)
 }
-
-func main() {
+func zigzag_ver3_from_python() {
 	var numRows = 1
 	var arr = make([][]rune, numRows)
 	s := "A"
 	if numRows == 0 || numRows == 1 {
 		fmt.Println(s)
+		return
 	}
 	current := 0
 	for i, v := range s {
@@ -282,4 +282,8 @@ func main() {
 		result += string(v[:])
 	}
 	fmt.Println(result)
+}
+
+func main() {
+
 }
