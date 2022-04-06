@@ -306,6 +306,104 @@ func reverse(x int) (answer int) {
 	return answer
 }
 
-func main() {
+//개무식하다 진짜 ㅅㅂ 2시간을 쳐푸네 ㅂㅅ
+func atoi() {
+	// s := "+1"
+	s := "abcc123dsvnkld"
+	//중간에 +- 가 들어가면 쳐내
+	var (
+		filtered   = []rune{}
+		isMinus    = false
+		zeroAscii  = 48
+		nineAscii  = 57
+		minusAscii = 45
+		plusAscii  = 43
+		count      = 0
+		result     = 0
+	)
+	s = strings.Trim(s, " ")
+	for _, v := range s {
+		if int(v) == minusAscii || int(v) == plusAscii {
+			if len(filtered) > 0 {
+				fmt.Println("fuck")
+				break
+			}
+		}
+		if zeroAscii <= int(v) && int(v) <= nineAscii || int(v) == minusAscii || int(v) == plusAscii {
+			filtered = append(filtered, v)
+		} else {
+			break
+		}
+	}
+	for i := 0; i < len(filtered); i++ {
+		if zeroAscii <= int(filtered[i]) && int(filtered[i]) <= nineAscii {
+			if int(filtered[i]) != zeroAscii && len(filtered)-i-1 > 10 {
+				if int(filtered[0]) == minusAscii {
+					isMinus = true
+				}
+				result = 1 << 31
+				break
+			}
+			result += int(filtered[i]-48) * int(math.Pow(float64(10), float64(len(filtered)-i-1)))
+		} else if int(filtered[i]) == minusAscii {
+			isMinus = true
+			count++
+		} else {
+			count++
+		}
 
+		if count == 2 {
+			result = 0
+			break
+		}
+
+	}
+	if isMinus {
+		result *= -1
+	}
+	fmt.Println(result)
+	if result <= -(1<<31) || result >= (1<<31)-1 {
+		if result > 0 {
+			fmt.Println(result - 1)
+			return
+		} else {
+			fmt.Println(-(1 << 31))
+			return
+		}
+	}
+	fmt.Println(result)
+}
+func atoi_2(str string) int {
+	var ans int64 = 0
+	var sign int64 = 1
+	start := false
+
+	for _, b := range str {
+		fmt.Println(ans, sign)
+		if b <= '9' && b >= '0' {
+			if !start {
+				start = true
+			}
+			ans = ans*10 + int64(b) - int64('0')
+			if ans*sign > math.MaxInt32 {
+				return math.MaxInt32
+			} else if ans*sign < math.MinInt32 {
+				return math.MinInt32
+			}
+		} else if !start && b == '+' {
+			start = true
+		} else if !start && b == '-' {
+			start = true
+			sign = -1
+		} else if !start && b == ' ' {
+			continue
+		} else {
+			break
+		}
+	}
+	return int(ans * sign)
+}
+
+func main() {
+	atoi_2("2000000000001230-2193")
 }
