@@ -307,6 +307,7 @@ func reverse(x int) (answer int) {
 }
 
 //개무식하다 진짜 ㅅㅂ 2시간을 쳐푸네 ㅂㅅ
+//@8번
 func atoi() {
 	// s := "+1"
 	s := "abcc123dsvnkld"
@@ -403,7 +404,60 @@ func atoi_2(str string) int {
 	}
 	return int(ans * sign)
 }
+func whatIwant_myAtoi(s string) int {
+	var (
+		isMinus  = 1
+		str      = strings.TrimSpace(s)
+		result   = 0
+		maxValue = (1 << 31) - 1
+	)
+
+	if str == "" {
+		return 0
+	}
+
+	if str[0] == '-' {
+		isMinus = -1
+		str = str[1:]
+	} else if str[0] == '+' {
+		str = str[1:]
+	} else if str[0] < '0' || str[0] > '9' {
+		return 0
+	}
+
+	for _, v := range str {
+		if v >= '0' && v <= '9' {
+			result = 10*result + int(v) - '0'
+			if result > maxValue {
+				return ((maxValue)*isMinus + (isMinus-1)/2)
+			}
+		} else {
+			break
+		}
+	}
+	return (result * isMinus)
+}
+
+//@9번
+func isPalindrome(x int) bool {
+	textX := fmt.Sprint(x)
+	answer := true
+
+	for i := 0; i < len(textX)/2; i++ {
+		if textX[i] != textX[len(textX)-1-i] {
+			answer = false
+			break
+		}
+	}
+	return answer
+}
 
 func main() {
-	atoi_2("2000000000001230-2193")
+	x := -121
+	result := 0
+	for x > 0 {
+		result = (result * 10) + (x % 10)
+		x /= 10
+	}
+	fmt.Println(result)
 }
