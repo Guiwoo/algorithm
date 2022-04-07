@@ -1,0 +1,8 @@
+###
+POST http://localhost:3000/foo
+
+{
+    "first_name":"Guiwoo",
+    "last_name":"Park",
+    "email":"hoit"
+}
