@@ -33,7 +33,7 @@ func (f *fooHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 	user.CreatedAt = time.Now()
 	data, _ := json.Marshal(user)
-	w.WriteHeader(http.StatusOK)
+	w.WriteHeader(http.StatusCreated)
 	fmt.Fprint(w, string(data))
 }
 

@@ -1,8 +1,11 @@
 ###
-POST http://localhost:3000/foo
+GET http://localhost:3000/users/1
+
+###
+POST http://localhost:3000/users
 
 {
-    "first_name":"Guiwoo",
-    "last_name":"Park",
-    "email":"hoit"
+    "first_name":"Json",
+    "last_name":"Kim",
+    "email":"hi"
 }
