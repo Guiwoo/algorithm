@@ -451,13 +451,64 @@ func isPalindrome(x int) bool {
 	}
 	return answer
 }
+func isPalindrome_ver2(x int) bool {
+	y := x
+	if x < 0 {
+		return false
+	}
+	result := 0
+	for y > 0 {
+		result = (result * 10) + (y % 10)
+		y /= 10
+	}
+	return result == y
+}
+
+//@10번
+// func isMatch(s,p string) bool {
+// 	sLen := len(s)
+// 	pLen := len(p)
+// 	dp := make([][]bool,sLen+1)
+// 	dp[0][0] = true
+// }
+
+func isMatch(s string, p string) bool {
+	n1 := len(s)
+	n2 := len(p)
+	dp := make([][]bool, n1+1)
+
+	for i := 0; i <= n1; i++ {
+		dp[i] = make([]bool, n2+1)
+	}
+
+	dp[0][0] = true
+	for i := 2; i <= n2; i += 2 {
+		if p[i-1] == '*' {
+			dp[0][i] = true
+		} else {
+			break
+		}
+	}
+
+	for i := 1; i <= n1; i++ {
+		for j := 1; j <= n2; j++ {
+			if s[i-1] == p[j-1] || p[j-1] == '.' {
+				dp[i][j] = dp[i-1][j-1]
+				continue
+			}
+
+			if p[j-1] == '*' {
+				dp[i][j] = dp[i][j-1] ||
+					dp[i][j-2] ||
+					(dp[i-1][j] && (p[j-2] == s[i-1] || p[j-2] == '.'))
+				continue
+			}
+		}
+	}
+
+	return dp[n1][n2]
+}
 
 func main() {
-	x := -121
-	result := 0
-	for x > 0 {
-		result = (result * 10) + (x % 10)
-		x /= 10
-	}
-	fmt.Println(result)
+
 }

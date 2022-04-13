@@ -1,4 +1,4 @@
-package tucker
+package basic
 
 import "fmt"
 
