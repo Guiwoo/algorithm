@@ -1,9 +1,17 @@
 package main
 
 import (
-	chat "github.com/guiwoo/tucker_web/chatApp"
+	"log"
+
+	oauth "github.com/guiwoo/tucker_web/OAuth"
+	"github.com/joho/godotenv"
 )
 
 func main() {
-	chat.ChatApp_Start()
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+
+	oauth.Start()
 }
