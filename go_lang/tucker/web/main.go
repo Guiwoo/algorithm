@@ -1,17 +1,9 @@
 package main
 
 import (
-	"log"
-
-	oauth "github.com/guiwoo/tucker_web/OAuth"
-	"github.com/joho/godotenv"
+	todo "github.com/guiwoo/tucker_web/todo"
 )
 
 func main() {
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
-	}
-
-	oauth.Start()
+	todo.Start()
 }

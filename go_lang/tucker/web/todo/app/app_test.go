@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"net/url"
+	"os"
 	"testing"
 
 	"github.com/guiwoo/tucker_web/todo/model"
@@ -13,8 +14,12 @@ import (
 )
 
 func TestTodos(t *testing.T) {
+	os.Remove("./test.db")
+
 	assert := assert.New(t)
-	ts := httptest.NewServer(MakeHandler())
+	appH := MakeHandler("./test.db")
+	defer appH.Close()
+	ts := httptest.NewServer(appH)
 	defer ts.Close()
 	resp, err := http.PostForm(ts.URL+"/todos", url.Values{"name": {"Test todo"}})
 	assert.NoError(err)
