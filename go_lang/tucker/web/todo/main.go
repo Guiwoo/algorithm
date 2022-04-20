@@ -5,17 +5,17 @@ import (
 	"net/http"
 
 	"github.com/guiwoo/tucker_web/todo/app"
-	"github.com/urfave/negroni"
+	"github.com/joho/godotenv"
 )
 
 func Start() {
+	err := godotenv.Load()
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
 
 	m := app.MakeHandler("./test.db")
 	defer m.Close()
 
-	n := negroni.Classic()
-	n.Use(negroni.NewStatic(http.Dir("todo/public/original")))
-	n.UseHandler(m)
-
-	log.Fatal(http.ListenAndServe(":3000", n))
+	log.Fatal(http.ListenAndServe(":3000", m))
 }
