@@ -21,7 +21,7 @@ type AppHandler struct {
 	db model.DBHandler
 }
 
-func getSessionId(r *http.Request) string {
+var getSessionId = func(r *http.Request) string {
 	session, err := store.Get(r, "session")
 	if err != nil {
 		return ""
@@ -39,13 +39,15 @@ func (a *AppHandler) indexHandler(rw http.ResponseWriter, r *http.Request) {
 }
 
 func (a *AppHandler) getTodosHandler(rw http.ResponseWriter, r *http.Request) {
-	list := a.db.GetTodos()
+	sessionId := getSessionId(r)
+	list := a.db.GetTodos(sessionId)
 	rd.JSON(rw, http.StatusOK, list)
 }
 
 func (a *AppHandler) postTodosHandler(rw http.ResponseWriter, r *http.Request) {
+	sessionId := getSessionId(r)
 	name := r.FormValue("name")
-	todo := a.db.AddTodo(name)
+	todo := a.db.AddTodo(name, sessionId)
 	rd.JSON(rw, http.StatusCreated, todo)
 }
 
@@ -80,12 +82,10 @@ func (a *AppHandler) Close() {
 }
 
 func CheckSignin(rw http.ResponseWriter, r *http.Request, next http.HandlerFunc) {
-	// if req url is /signin.html, then next()
-	if strings.Contains(r.URL.Path, "/signin.html") || strings.Contains(r.URL.Path, "/auth") {
+	if strings.Contains(r.URL.Path, "/signin") || strings.Contains(r.URL.Path, "/auth") {
 		next(rw, r)
 		return
 	}
-	// User exist on session
 	sessionId := getSessionId(r)
 	if sessionId != "" {
 		next(rw, r)
@@ -100,7 +100,12 @@ func MakeHandler(filepath string) *AppHandler {
 	store = sessions.NewCookieStore([]byte(os.Getenv("SESSION_KEY")))
 
 	r := mux.NewRouter()
-	n := negroni.New(negroni.NewRecovery(), negroni.NewLogger(), negroni.HandlerFunc(CheckSignin), negroni.NewStatic(http.Dir("todo/public")))
+	n := negroni.New(
+		negroni.NewRecovery(),
+		negroni.NewLogger(),
+		negroni.HandlerFunc(CheckSignin),
+		negroni.NewStatic(http.Dir("todo/public")),
+	)
 
 	n.UseHandler(r)
 
