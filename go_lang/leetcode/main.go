@@ -509,6 +509,62 @@ func isMatch(s string, p string) bool {
 	return dp[n1][n2]
 }
 
-func main() {
+//이거는 러닝타임 초과
+func maxArea1(h []int) int {
+	min := func(a, b int) int {
+		if a < b {
+			return a
+		}
+		return b
+	}
+	max := func(a, b int) int {
+		if a > b {
+			return a
+		}
+		return b
+	}
 
+	n := len(h)
+	var result int
+	for left := 0; left < n-1; left++ {
+		for right := left + 1; right < n; right++ {
+			currArea := min(h[left], h[right]) * (right - left)
+			result = max(result, currArea)
+		}
+	}
+	return result
+}
+
+type Area struct {
+	Area int
+	L    int
+	R    int
+}
+
+func maxArea(h []int) int {
+	a := new(Area)
+	a.R = len(h) - 1
+
+	for a.L < a.R {
+		if h[a.L] < h[a.R] {
+			a.setArea(h[a.L])
+			a.L++
+		} else {
+			a.setArea(h[a.R])
+			a.R--
+		}
+	}
+	return a.Area
+}
+
+func (a *Area) setArea(h int) {
+	if a.Area < h*(a.R-a.L) {
+		a.Area = h * (a.R - a.L)
+	}
+}
+
+func main() {
+	height := []int{1, 8, 6, 2, 5, 4, 8, 3, 7}
+	answer := maxArea(height)
+	fmt.Println(answer)
 }
