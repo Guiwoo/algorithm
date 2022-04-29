@@ -105,13 +105,13 @@ func bj10989() {
 	writer := bufio.NewWriter(os.Stdout)
 	defer writer.Flush()
 
-	fmt.Fscan(reader, &n)
+	fmt.Fscanln(reader, &n)
 	arr := make([]int, 10001)
 
 	for i := 0; i < n; i++ {
 		var new int
-		fmt.Fscan(reader, &new)
-		arr[new] = arr[new] + 1
+		fmt.Fscanln(reader, &new)
+		arr[new] += 1
 	}
 
 	for j := 0; j < 10001; j++ {
@@ -123,5 +123,5 @@ func bj10989() {
 	}
 }
 func main() {
-	bj10989()
+
 }

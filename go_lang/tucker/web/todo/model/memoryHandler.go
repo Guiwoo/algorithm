@@ -6,14 +6,14 @@ type memoryHanlder struct {
 	todoMap map[int]*Todo
 }
 
-func (m *memoryHanlder) GetTodos() []*Todo {
+func (m *memoryHanlder) GetTodos(sessionId string) []*Todo {
 	list := []*Todo{}
 	for _, v := range m.todoMap {
 		list = append(list, v)
 	}
 	return list
 }
-func (m *memoryHanlder) AddTodo(name string) *Todo {
+func (m *memoryHanlder) AddTodo(name, sessionId string) *Todo {
 	id := len(m.todoMap)
 	todo := &Todo{id, name, false, time.Now()}
 	m.todoMap[id] = todo
