@@ -563,8 +563,27 @@ func (a *Area) setArea(h int) {
 	}
 }
 
+func intToRoman(num int) string {
+	// 	1000 부터 나누기 시작하면 될듯 ?
+	hash := map[int]string{1000: "M", 900: "CM", 500: "D", 400: "CD", 100: "C", 90: "XC", 50: "L", 40: "XL", 10: "X", 9: "IX", 5: "V", 4: "IV", 1: "I"}
+	sets := []int{1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1}
+	current := 0
+	result := ""
+
+	for {
+		if num == 0 {
+			break
+		}
+
+		result += strings.Repeat(hash[sets[current]], num/sets[current])
+		num = num % sets[current]
+		current++
+	}
+
+	return result
+}
+
 func main() {
-	height := []int{1, 8, 6, 2, 5, 4, 8, 3, 7}
-	answer := maxArea(height)
+	answer := intToRoman(1994)
 	fmt.Println(answer)
 }
