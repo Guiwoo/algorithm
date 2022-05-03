@@ -563,6 +563,7 @@ func (a *Area) setArea(h int) {
 	}
 }
 
+// 다 비슷하게 한듯 ?
 func intToRoman(num int) string {
 	// 	1000 부터 나누기 시작하면 될듯 ?
 	hash := map[int]string{1000: "M", 900: "CM", 500: "D", 400: "CD", 100: "C", 90: "XC", 50: "L", 40: "XL", 10: "X", 9: "IX", 5: "V", 4: "IV", 1: "I"}
@@ -583,7 +584,62 @@ func intToRoman(num int) string {
 	return result
 }
 
+func romanToInt(s string) int {
+	hash := map[string]int{"M": 1000, "CM": 900, "D": 500, "CD": 400, "C": 100, "XC": 90, "L": 50, "XL": 40, "X": 10, "IX": 9, "V": 5, "IV": 4, "I": 1}
+	current := 0
+	result := 0
+	for {
+		if current >= len(s) {
+			break
+		}
+		if current+2 <= len(s) {
+			target := s[current : current+2]
+			if val, ok := hash[target]; ok {
+				current += 2
+				result += val
+			} else {
+				result += hash[string(s[current])]
+				current++
+			}
+		} else {
+			result += hash[string(s[current])]
+			current++
+		}
+	}
+	return result
+}
+
+func romanToInt_ver2(s string) int {
+	type Value struct {
+		Value  int
+		Before byte
+	}
+	dic := map[byte]Value{
+		'I': {1, ' '}, 'V': {5, 'I'}, 'X': {10, 'I'}, 'L': {50, 'X'}, 'C': {100, 'X'}, 'D': {500, 'C'}, 'M': {1000, 'C'},
+	}
+
+	sum := int(0)
+	before := ' '
+	length := len(s)
+
+	for i := 0; i < length; i++ {
+		current := s[i]
+		d := dic[current]
+		sum += d.Value
+		fmt.Println("before ", sum)
+		if before == rune(d.Before) {
+			sum -= dic[d.Before].Value * 2
+		}
+		fmt.Println(sum)
+		before = rune(current)
+	}
+
+	return sum
+}
+
 func main() {
-	answer := intToRoman(1994)
+	// answer := romanToInt("MCMXCIV")
+	// fmt.Println(answer)
+	answer := romanToInt_ver2("MCMXCIV")
 	fmt.Println(answer)
 }
