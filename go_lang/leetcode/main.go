@@ -638,6 +638,7 @@ func romanToInt_ver2(s string) int {
 }
 
 // cool 0ms/100% 2.6mb
+// slice byte way faster than normal strings added
 func longestCommonPrefix(strs []string) string {
 	getMinLength := func(s1, s2 string) int {
 		if len(s1) > len(s2) {
