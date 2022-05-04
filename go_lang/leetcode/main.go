@@ -637,9 +637,35 @@ func romanToInt_ver2(s string) int {
 	return sum
 }
 
+// cool 0ms/100% 2.6mb
+func longestCommonPrefix(strs []string) string {
+	getMinLength := func(s1, s2 string) int {
+		if len(s1) > len(s2) {
+			return len(s2)
+		}
+		return len(s1)
+	}
+	result := strs[0]
+	for i := 1; i < len(strs); i++ {
+		currentAnswer := []byte{}
+		minLoop := getMinLength(result, strs[i])
+		for j := 0; j < minLoop; j++ {
+			if result[j] == strs[i][j] {
+				currentAnswer = append(currentAnswer, result[j])
+			} else {
+				break
+			}
+		}
+		result = string(currentAnswer)
+		if result == "" {
+			break
+		}
+	}
+	return result
+}
+
 func main() {
-	// answer := romanToInt("MCMXCIV")
-	// fmt.Println(answer)
-	answer := romanToInt_ver2("MCMXCIV")
-	fmt.Println(answer)
+	ex := []string{"dog"}
+	test := longestCommonPrefix(ex)
+	fmt.Println(test)
 }
