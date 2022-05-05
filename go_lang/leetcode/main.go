@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math"
+	"reflect"
 	"sort"
 	"strconv"
 	"strings"
@@ -665,8 +666,106 @@ func longestCommonPrefix(strs []string) string {
 	return result
 }
 
+func threeSum(nums []int) [][]int {
+	if len(nums) < 3 {
+		return [][]int{}
+	}
+	duplciate := func(answers [][]int, target []int) bool {
+		for _, v := range answers {
+			if ok := reflect.DeepEqual(v, target); ok {
+				return true
+			}
+		}
+		return false
+	}
+	hashed := map[int]bool{}
+	for _, v := range nums {
+		hashed[v] = true
+	}
+	sort.Ints(nums)
+	answer := [][]int{}
+	current := 1
+
+	for i := 0; i < len(nums)-1; i++ {
+		target := (nums[i] + nums[current]) * -1
+		if hashed[target] {
+			theAnswer := []int{nums[i], nums[current], target}
+			sort.Ints(theAnswer)
+			//duplicate check and add
+			ok := duplciate(answer, theAnswer)
+			if !ok {
+				answer = append(answer, theAnswer)
+			}
+		}
+		current++
+	}
+
+	return answer
+}
+
+func threeSum_ver2(nums []int) [][]int {
+	res := [][]int{}
+	sort.Ints(nums)
+	for i := 0; i < len(nums); i++ {
+		if i > 0 && nums[i] == nums[i-1] {
+			continue
+		} // 중복체크 이렇게 와씨
+		left, right := i+1, len(nums)-1
+		for left < right {
+			sum := nums[i] + nums[left] + nums[right]
+			if sum == 0 {
+				res = append(res, []int{nums[i], nums[left], nums[right]})
+				for left < right && nums[left] == nums[left+1] {
+					left++
+				}
+				for left < right && nums[right-1] == nums[right] {
+					right--
+				}
+				left++
+				right--
+			} else if sum > 0 {
+				right--
+			} else {
+				left++
+			}
+		}
+	}
+
+	return res
+}
+
+func threeSum_ver4(nums []int) [][]int {
+	answer := [][]int{}
+	sort.Ints(nums)
+
+	for i, num := range nums {
+		if i > 0 && nums[i-1] == nums[i] {
+			continue
+		}
+		target, j, k := -num, i+1, len(nums)-1
+		for j < k {
+			if nums[j]+nums[k] == target {
+				answer = append(answer, []int{num, nums[j], nums[k]})
+				for j < k && nums[j] == nums[j+1] {
+					j++
+				}
+				for j < k && nums[k] == nums[k-1] {
+					k--
+				}
+				j++
+				k--
+			} else if nums[j]+nums[k] > target {
+				k--
+			} else {
+				j++
+			}
+		}
+	}
+	return answer
+}
+
 func main() {
-	ex := []string{"dog"}
-	test := longestCommonPrefix(ex)
-	fmt.Println(test)
+	nums := []int{-1, -1, 0, 1, 2}
+	answer := threeSum_ver4(nums)
+	fmt.Println(answer)
 }
