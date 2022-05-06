@@ -832,6 +832,35 @@ func threeSumClosest_ver2(nums []int, target int) int {
 	return ans
 }
 
+func threeSumClosest_ver3(nums []int, target int) int {
+	abs := func(a int) int {
+		if a > 0 {
+			return a
+		}
+		return -a
+	}
+
+	sort.Ints(nums)
+	ans, n := math.MaxInt32, len(nums)
+
+	for i := 0; i < n-2; i++ {
+		low, high := i+1, n-1
+		for low < high {
+			curSum := nums[low] + nums[i] + nums[high]
+			if curSum > target {
+				high--
+			} else {
+				low++
+			}
+			//같은경우 비교를 안했기때문에 만약에 컬섬이 타겟과 동일하다면 답을 리뉴얼할필요가있음
+			if abs(curSum-target) < abs(ans-target) {
+				ans = curSum
+			}
+		}
+	}
+	return ans
+}
+
 func main() {
 	nums := []int{0, 2, 1, -3}
 	answer := threeSumClosest(nums, 1)
