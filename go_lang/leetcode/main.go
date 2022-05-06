@@ -764,8 +764,76 @@ func threeSum_ver4(nums []int) [][]int {
 	return answer
 }
 
+func threeSumClosest(nums []int, target int) int {
+	getAbs := func(a int) int {
+		if a < 0 {
+			return a * -1
+		}
+		return a
+	}
+
+	answer := 0
+	if len(nums) == 3 {
+		answer := nums[0] + nums[1] + nums[2]
+		return answer
+	}
+	sort.Ints(nums)
+	left, right := 0, len(nums)-1
+	for right-left > 2 {
+		gapLeft := getAbs(nums[left] - target)
+		gapRight := getAbs(nums[right] - target)
+		if gapRight > gapLeft {
+			right--
+		} else if gapLeft > gapRight {
+			left++
+		} else {
+			for right-left > 2 && gapLeft <= getAbs(nums[right]-target) {
+				left++
+			}
+			for right-left > 2 && gapRight <= getAbs(nums[left]-target) {
+				right--
+			}
+		}
+	}
+	fmt.Println(left, right)
+	for _, v := range nums[left : right+1] {
+		answer += v
+	}
+	return answer
+}
+
+func threeSumClosest_ver2(nums []int, target int) int {
+
+	abs := func(a int) int {
+		if a < 0 {
+			return -a
+		}
+		return a
+	}
+
+	sort.Ints(nums)
+	ans := nums[0] + nums[1] + nums[2]
+	n := len(nums)
+
+	for i := 0; i < n; i++ {
+		j, k := i+1, n-1
+		for j < k {
+			v := nums[i] + nums[j] + nums[k]
+			if abs(target-v) < abs(target-ans) {
+				ans = v
+			}
+			if v <= target {
+				j++
+			} else {
+				k--
+			}
+		}
+	}
+	return ans
+}
+
 func main() {
-	nums := []int{-1, -1, 0, 1, 2}
-	answer := threeSum_ver4(nums)
+	nums := []int{0, 2, 1, -3}
+	answer := threeSumClosest(nums, 1)
 	fmt.Println(answer)
 }
