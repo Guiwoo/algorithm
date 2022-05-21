@@ -1,13 +1,33 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.StringTokenizer;
 
 public class Test {
-    public static void main(String[] args){
-        int[] nums = {1,2,3,4,5,6,7};
-        int k = 3;
-        rotate2(nums,k);
-        for (int r:nums) {
-            System.out.print(r+" ");
+    public static void main(String[] args) throws IOException {
+
+    }
+    public static long getGcd(long a,long b){
+       long r;
+       while(b != 0){
+           r = a % b;
+           a = b;
+           b = r;
+       }
+       return a;
+    }
+    public static int getFibo(long n){
+        if( n == 0){
+            return 0;
         }
+        if( n == 1){
+            return 1;
+        }
+        if( n == 2){
+            return 1;
+        }
+        return getFibo(n-2)+getFibo(n-1);
     }
     public static void rotate2(int[] nums,int k)  {
         int n = nums.length;
