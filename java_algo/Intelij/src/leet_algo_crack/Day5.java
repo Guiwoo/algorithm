@@ -1,6 +1,8 @@
 package leet_algo_crack;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Day5 {
     class Lt35 {
@@ -46,14 +48,14 @@ public class Day5 {
             System.out.println(mid);
         }
     }
+    class ListNode{
+        int val;
+        ListNode next;
+        ListNode(){};
+        ListNode(int val){this.val =val;}
+        ListNode(int val, ListNode next){this.val = val;this.next=next;}
+    }
     class Lt876{
-        class ListNode{
-           int val;
-           ListNode next;
-           ListNode(){};
-           ListNode(int val){this.val =val;}
-            ListNode(int val, ListNode next){this.val = val;this.next=next;}
-        }
         public ListNode middleNode(ListNode head) {
             ListNode ln = new ListNode();
             ArrayList<Integer> arr = new ArrayList<Integer>();
@@ -73,6 +75,26 @@ public class Day5 {
             cur.val = arr.get(arr.size()-1);
             return ln;
     }
+    }
+
+     class Lt19{
+         public ListNode removeNthFromEnd(ListNode head, int n) {
+             ListNode dummy = new ListNode(0);
+             dummy.next = head;
+             ListNode slow = dummy;
+             ListNode fast = head;
+
+             for (int i = 0; i<n; i++){
+                 fast= fast.next;
+             }
+             while(fast != null){
+                 fast = fast.next;
+                 slow= slow.next;
+             }
+             slow.next = slow.next.next;
+
+             return dummy.next;
+         }
     }
 }
 
