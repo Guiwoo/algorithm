@@ -1,5 +1,7 @@
 package leet_algo_crack;
 
+import java.util.ArrayList;
+
 public class Day5 {
     class Lt35 {
         public int searchInsert(int[] nums, int target) {
@@ -43,6 +45,34 @@ public class Day5 {
             }
             System.out.println(mid);
         }
+    }
+    class Lt876{
+        class ListNode{
+           int val;
+           ListNode next;
+           ListNode(){};
+           ListNode(int val){this.val =val;}
+            ListNode(int val, ListNode next){this.val = val;this.next=next;}
+        }
+        public ListNode middleNode(ListNode head) {
+            ListNode ln = new ListNode();
+            ArrayList<Integer> arr = new ArrayList<Integer>();
+            while(head.next != null){
+                arr.add(head.val);
+                head = head.next;
+            }
+            arr.add(head.val);
+            int mid = arr.size()/2;
+            ListNode cur = ln;
+            for(int i=mid;i<arr.size()-1;i++){
+                ListNode newLn = new ListNode();
+                cur.val = arr.get(i);
+                cur.next = newLn;
+                cur = newLn;
+            }
+            cur.val = arr.get(arr.size()-1);
+            return ln;
+    }
     }
 }
 
