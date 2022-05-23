@@ -1,7 +1,5 @@
-package day2;
-
-public class Day1 {
-}
+package leet_algo_crack;
+public class Day1{}
 class Lt704{
     public int search(int[] nums, int target) {
         int answer = -1;

@@ -1,7 +1,6 @@
-package day3;
+package leet_algo_crack;
 
-public class Day3{
-    // solve again;
+public class Day3 {
 }
 class Lt283{
     public void moveZeroes(int[] nums) {

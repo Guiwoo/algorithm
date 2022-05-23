@@ -1,4 +1,4 @@
-package day2;
+package leet_algo_crack;
 
 import java.util.Arrays;
 
@@ -57,3 +57,4 @@ class Lt977{
         return result;
     }
 }
+
