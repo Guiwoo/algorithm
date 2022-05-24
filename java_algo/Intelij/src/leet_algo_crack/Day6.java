@@ -7,7 +7,23 @@ public class Day6 {
 
     public static void main(String[] args){
     }
-    public class Lt567_clean_answer {
+
+    class Lt367 {
+        public boolean isPerfectSquare(int num) {
+            int i = 1, j = num;
+            while(i <= j){
+                int mid = i + (j-i)/2;
+                int res = num/mid, tail = num%mid;
+                if(tail == 0 && res == mid) return true;
+                else if(res < mid){
+                    j = mid-1;
+                } else i = mid+1;
+            }
+            return false;
+        }
+    }
+
+    class Lt567_clean_answer {
         public boolean checkInclusion(String s1, String s2) {
             int len1 = s1.length(), len2 = s2.length();
             if (len1 > len2) return false;
