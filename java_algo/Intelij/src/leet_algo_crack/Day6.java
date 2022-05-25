@@ -1,13 +1,37 @@
 package leet_algo_crack;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 public class Day6 {
-
     public static void main(String[] args){
+        int[][] image = {{1,1,1},{1,1,0},{1,0,1}};
+        floodFill(image,1,1,2);
+        for (int[] arr:image) {
+            for(int a: arr){
+                System.out.print(a+" ");
+            }
+            System.out.println();
+        }
     }
+    static public int[][] floodFill(int[][] image, int sr, int sc, int newColor) {
 
+        return image;
+    }
+    class Lt1385{
+        public int findTheDistanceValue(int[] arr1, int[] arr2, int d) {
+            Arrays.sort(arr2);
+            var distanceValue = 0;
+
+            for (var n : arr1)
+                if (Arrays.binarySearch(arr2, n - d) == Arrays.binarySearch(arr2, n + d))
+                    distanceValue++;
+
+            return distanceValue;
+
+        }
+    }
     class Lt367 {
         public boolean isPerfectSquare(int num) {
             int i = 1, j = num;
