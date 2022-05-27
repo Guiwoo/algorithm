@@ -1,9 +1,6 @@
 package leet_algo_crack;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class Day9 {
     public static void main(String[] args){
@@ -81,8 +78,24 @@ public class Day9 {
     static class Lt542_BFS_Ver3{
         int[] DIR = new int[]{0, 1, 0, -1, 0};
         public int[][] updateMatrix(int[][] mat) {
-            int rows = mat.length;
-            int cols = mat[0].length;
+            int rows = mat.length,cols = mat[0].length;
+            Queue<int[]> q = new ArrayDeque<>();
+            for (int i = 0; i < rows; ++i) {
+                for (int j = 0; j < cols; ++j) {
+                    if(mat[i][j] == 0) q.offer(new int[]{i,j});
+                    else mat[i][j] = -1;
+                }
+            }
+            while(!q.isEmpty()){
+                int[] curr = q.poll();
+                int r = curr[0],c = curr[1];
+                for (int i = 0; i < 4; i++) {
+                    int nr = r+DIR[i],nc = c +DIR[i+1];
+                    if(nr<0||nr>=rows||nc<0||nc== cols||mat[nc][nc]!=-1)continue;;
+                    mat[nr][nc] = mat[r][c]+1;
+                    q.offer(new int[]{nr,nc});
+                }
+            }
             return mat;
         }
     }
