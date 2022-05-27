@@ -1,9 +1,10 @@
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+
 public class BinarySearch {
     public static void main(String[] args) {
-        int[] nums = { -1, 0, 3, 5, 9, 12 };
-        int target = 9;
-        int answer = looping(nums, nums.length / 2, target);
-        System.out.println(answer);
+
     }
 
     public static int looping(int[] nums, int idx, int target) {
