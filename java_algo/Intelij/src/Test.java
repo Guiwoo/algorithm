@@ -3,7 +3,15 @@ import java.util.HashMap;
 
 public class Test {
     public static void main(String[] args){
-        checkInclusion("ab","eidbaooo");
+        System.out.println(draw(2,0,0));
+    }
+    public static int draw (int n, int x, int y) {
+        // n이 1이면 1
+        if (n == 1) return 1;
+        else if (y < n/2 && x < n/2) return (int) (Math.pow((n/2), 2) + draw(n/2, x%(n/2), y%(n/2)));
+        else if (y < n/2 && x >= n/2) return draw(n/2, x%(n/2), y%(n/2));
+        else if (y >= n/2 && x < n/2) return (int) ((Math.pow((n/2), 2) * 2) + draw(n/2, x%(n/2), y%(n/2)));
+        else return (int) ((Math.pow((n/2), 2) * 3) + draw(n/2, x%(n/2), y%(n/2)));
     }
     static public boolean checkInclusion(String s1, String s2) {
         int len1 = s1.length(), len2 = s2.length();
