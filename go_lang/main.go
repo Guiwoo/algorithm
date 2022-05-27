@@ -73,7 +73,7 @@ func permutation_practice() {
 				visit[i] = true
 				result = append(result, i+1)
 				checking(start + 1)
-				visit[start] = false
+				visit[i] = false
 				result = result[:len(result)-1]
 			}
 		}
@@ -123,5 +123,5 @@ func bj10989() {
 	}
 }
 func main() {
-
+	permutation_practice()
 }
