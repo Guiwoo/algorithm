@@ -1,13 +1,32 @@
+import java.util.Arrays;
 import java.util.Deque;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Queue;
 import java.util.Stack;
 
 public class BinaryTreePreOrderTraversal {
     public static void main(String[] args) {
-        TreeNode tn = new TreeNode(1, null, new TreeNode(2, new TreeNode(3, null, null), null));
+        TreeNode tn = new TreeNode(1, null, new TreeNode(2, new TreeNode(3, null,
+                null), null));
         List<Integer> rs = preorderTraversal(tn);
         System.out.println(rs);
+    }
+
+    public List<Integer> preorderTraversal_myAnswer(TreeNode root) {
+        List<Integer> result = new LinkedList<>();
+        Queue<TreeNode> q = new LinkedList<TreeNode>();
+        q.add(root);
+        while (!q.isEmpty()) {
+            TreeNode cur = q.poll();
+            if (cur != null) {
+                result.add(cur.val);
+                q.offer(cur.left);
+                q.offer(cur.right);
+            }
+        }
+        return result;
     }
 
     static public List<Integer> preorderTraversal(TreeNode root) {
@@ -39,24 +58,5 @@ public class BinaryTreePreOrderTraversal {
             }
         }
         return result;
-    }
-}
-
-class TreeNode {
-    int val;
-    TreeNode left;
-    TreeNode right;
-
-    TreeNode() {
-    }
-
-    TreeNode(int val) {
-        this.val = val;
-    }
-
-    TreeNode(int val, TreeNode left, TreeNode right) {
-        this.val = val;
-        this.left = left;
-        this.right = right;
     }
 }
