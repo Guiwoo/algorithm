@@ -4,9 +4,11 @@ import java.util.List;
 
 public class Day10 {
     public static void main(String[] args){
-
+        Lt206 lt = new Lt206();
+        ListNode head = new ListNode(1,new ListNode(2,new ListNode(3,new ListNode(4,new ListNode(5,null)))));
+        lt.reverseList123(head);
     }
-    class ListNode {
+    static class ListNode {
         int val;
         ListNode next;
         ListNode() {}
@@ -50,7 +52,18 @@ public class Day10 {
             return result.next;
         }
     }
-    class Lt206{
+    static class Lt206{
+        public ListNode reverseList123(ListNode head) {
+            if(head == null ||head.next == null){
+                return head;
+            }
+
+            ListNode root = reverseList123(head.next);
+            head.next.next = head;
+            head.next = null;
+            return root;
+        }
+
         public ListNode reverseList(ListNode head) {
             if (head == null || head.next == null) return head;
             ListNode tail = head.next;
