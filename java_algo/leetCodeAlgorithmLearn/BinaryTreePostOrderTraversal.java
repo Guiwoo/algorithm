@@ -29,4 +29,18 @@ class Solution {
         }
         return result;
     }
+
+    public List<Integer> postorderTraversal_recur(TreeNode root) {
+        List<Integer> list = new ArrayList<>();
+        postOrder(root, list);
+        return list;
+    }
+
+    public void postOrder(TreeNode node, List<Integer> list) {
+        if (node != null) {
+            postOrder(node.left, list);
+            postOrder(node.right, list);
+            list.add(node.val);
+        }
+    }
 }

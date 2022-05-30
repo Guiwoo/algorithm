@@ -8,10 +8,15 @@ import java.util.Stack;
 
 public class BinaryTreePreOrderTraversal {
     public static void main(String[] args) {
-        TreeNode tn = new TreeNode(1, null, new TreeNode(2, new TreeNode(3, null,
-                null), null));
-        List<Integer> rs = preorderTraversal(tn);
-        System.out.println(rs);
+        // TreeNode tn = new TreeNode(1, null, new TreeNode(2, new TreeNode(3, null,
+        // null), null));
+        // List<Integer> rs = preorderTraversal(tn);
+        // System.out.println(rs);
+        int[][] flatten = { { 1, 2, 3 }, { 4, 5, 6 }, { 7, 8, 9 } };
+        int[] flatArr = Arrays.stream(flatten).flatMapToInt(Arrays::stream).toArray();
+        for (int i : flatArr) {
+            System.out.println(i);
+        }
     }
 
     public List<Integer> preorderTraversal_myAnswer(TreeNode root) {

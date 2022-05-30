@@ -9,6 +9,8 @@ import java.util.stream.IntStream;
 
 public class Day11 {
     public static void main(String[] args){
+        byte me= 0b1010010;
+        System.out.println(me);
 
     }
     class Lt77 {
