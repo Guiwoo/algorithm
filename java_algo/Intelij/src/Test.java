@@ -1,73 +1,58 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-
+import java.util.*;
+//String change = code.substring(leftIdx+1,rightIdx).repeat(code.charAt(leftIdx-1)-'0');
+//        System.out.println(leftIdx+" "+rightIdx);
+//        sb.replace(leftIdx-1,rightIdx+1,change);
+//        code = sb.toString();
+//        System.out.println(code);
 public class Test {
-    static ArrayList<ArrayList<Integer>> totalClassOfStd;
-    public static void main(String[] args){
-        System.out.println(solution(10,3,4,new int[]{3,3,4}));
+    public static void main(String[] args) {
+        Solution s = new Solution();
     }
-    static public long solution(int N, int M, int K, int[] capacity) {
-        long answer =0;
-        int[] caps = new int[3];
+}
 
-        for (int i=0;i<capacity.length;i++){
-            caps[i] = capacity[i];
+class Solution {
+    public int[] solution(int[] a, int[] b) {
+        if(a.length < b.length){
+            int[] tmp = a;
+            a = b;
+            b = a;
         }
-        for (int i = capacity.length; i < 3; i++) {
-            caps[i] = 0;
+        Stack<Integer> list = new Stack<>();
+        for (int i = 0; i < a.length; i++) {
+            list.add(a[i]);
         }
-
-        totalClassOfStd = getCaseStudents(caps,N);
-        answer = getAllCasesOfStudents(0,N);
-        return answer * perm(K,M);
-    }
-    static public ArrayList<ArrayList<Integer>> getCaseStudents(int[] caps,int totalStudents){
-        ArrayList<ArrayList<Integer>> result = new ArrayList<>();
-        for (int i = 0; i <= caps[0]; i++) {
-            for (int j = 0; j <= caps[1]; j++) {
-                for (int k = 0; k <= caps[2]; k++) {
-                    if(i+j+k == totalStudents){
-                        ArrayList<Integer> classOfStd = new ArrayList<>();
-                        classOfStd.add(i);
-                        classOfStd.add(j);
-                        classOfStd.add(k);
-                        result.add(classOfStd);
-                    }
+        int cur = b.length-1;
+        int upper = 0;
+        for (int i = list.size()-1; i >= 0; i--) {
+            if(cur > -1){
+                int sum = b[cur]+upper+list.get(i);
+                upper = 0;
+                if(sum>9){
+                    list.set(i,sum-10);
+                    upper++;
+                }else{
+                    list.set(i,sum);
+                }
+                cur--;
+            }
+            if(upper != 0){
+                int sum = list.get(i)+upper;
+                upper = 0;
+                if(sum>9){
+                    list.set(i,sum-10);
+                    upper++;
+                }else{
+                    list.set(i,sum);
                 }
             }
         }
-        return result;
-    }
-    static public int getAllCasesOfStudents(int answer,int totalStudent){
-        for(ArrayList<Integer> classOfStd : totalClassOfStd){
-            int firstClassStd = classOfStd.get(0);
-            int secondClassStd = classOfStd.get(1);
-            int thirdClassStd = classOfStd.get(2);
-
-            long firstCase = comb(totalStudent,firstClassStd);
-            long secondCase = comb(totalStudent-firstClassStd,secondClassStd);
-            long thirdCase = comb(totalStudent-firstClassStd-secondClassStd,thirdClassStd);
-            answer += firstCase*secondCase*thirdCase;
-        }
-        return answer;
-    }
-    static public long comb(int n,int r){
-        long top =1;
-        long bottom =1;
-        for(int i=0; i<r;i++){
-            top *= n-i;
-            bottom *= i+1;
-        }
-        return top/bottom;
-    }
-    static public long perm(int n,int r){
-        long result = 1;
-        for(int i=0;i<r;i++){
-            result *= n-i;
+        int[] result = list.stream().mapToInt(x->x).toArray();
+        if(upper != 0){
+            int[] newResult = new int[result.length+1];
+            System.arraycopy(result,0,newResult,1,result.length);
+            newResult[0] = 1;
+            result = newResult;
         }
         return result;
     }
 }
-
-
