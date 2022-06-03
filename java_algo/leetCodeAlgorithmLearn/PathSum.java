@@ -11,19 +11,15 @@ public class PathSum {
     }
 
     public static boolean hasPathSum(TreeNode root, int targetSum) {
-        ArrayList<Integer> arr = new ArrayList<>();
-        helper(root, 0, arr);
-        System.out.println(arr);
-        return arr.contains(targetSum);
+        return helper(root, targetSum);
     }
 
-    public static void helper(TreeNode root, int curSum, ArrayList<Integer> arr) {
+    public static boolean helper(TreeNode root, int curSum) {
         if (root == null) {
-            arr.add(curSum);
-            return;
+            return false;
         }
-        helper(root.left, curSum + root.val, arr);
-        helper(root.right, curSum + root.val, arr);
-        return;
+        if (root.left == null && root.right == null && curSum - root.val == 0)
+            return true;
+        return helper(root.left, curSum - root.val) || helper(root.right, curSum - root.val);
     }
 }
