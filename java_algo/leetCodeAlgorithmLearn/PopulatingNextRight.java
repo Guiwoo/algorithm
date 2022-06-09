@@ -65,4 +65,25 @@ class Node {
         right = _right;
         next = _next;
     }
+
+    public Node connect(Node root) {
+        Queue<Node> queue = new LinkedList<>();
+        if (root != null)
+            queue.offer(root);
+        while (!queue.isEmpty()) {
+            int n = queue.size();
+            Node previous = null;
+            for (int i = 0; i < n; i++) {
+                Node node = queue.poll();
+                if (i != 0)
+                    previous.next = node;
+                previous = node;
+                if (node.left != null)
+                    queue.offer(node.left);
+                if (node.right != null)
+                    queue.offer(node.right);
+            }
+        }
+        return root;
+    }
 };

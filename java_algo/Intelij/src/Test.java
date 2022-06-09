@@ -1,58 +1,24 @@
+import java.lang.reflect.Array;
 import java.util.*;
-//String change = code.substring(leftIdx+1,rightIdx).repeat(code.charAt(leftIdx-1)-'0');
-//        System.out.println(leftIdx+" "+rightIdx);
-//        sb.replace(leftIdx-1,rightIdx+1,change);
-//        code = sb.toString();
-//        System.out.println(code);
+import java.util.stream.IntStream;
+
 public class Test {
     public static void main(String[] args) {
-        Solution s = new Solution();
+        int[] nums = {1,2};
+        int[][] opeartions = {{1,3},{2,1},{3,2}};
+        int[] arr=arrayChange(nums,opeartions);
+        System.out.println(Arrays.toString(arr));
     }
-}
-
-class Solution {
-    public int[] solution(int[] a, int[] b) {
-        if(a.length < b.length){
-            int[] tmp = a;
-            a = b;
-            b = a;
+    public static int[] arrayChange(int[] nums, int[][] operations) {
+        HashMap<Integer,Integer> map = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            map.put(nums[i],i);
         }
-        Stack<Integer> list = new Stack<>();
-        for (int i = 0; i < a.length; i++) {
-            list.add(a[i]);
+        for(int[] x : operations){
+            int idx = map.get(x[0]);
+            nums[idx] = x[1];
+            map.put(x[1],idx);
         }
-        int cur = b.length-1;
-        int upper = 0;
-        for (int i = list.size()-1; i >= 0; i--) {
-            if(cur > -1){
-                int sum = b[cur]+upper+list.get(i);
-                upper = 0;
-                if(sum>9){
-                    list.set(i,sum-10);
-                    upper++;
-                }else{
-                    list.set(i,sum);
-                }
-                cur--;
-            }
-            if(upper != 0){
-                int sum = list.get(i)+upper;
-                upper = 0;
-                if(sum>9){
-                    list.set(i,sum-10);
-                    upper++;
-                }else{
-                    list.set(i,sum);
-                }
-            }
-        }
-        int[] result = list.stream().mapToInt(x->x).toArray();
-        if(upper != 0){
-            int[] newResult = new int[result.length+1];
-            System.arraycopy(result,0,newResult,1,result.length);
-            newResult[0] = 1;
-            result = newResult;
-        }
-        return result;
+        return nums;
     }
 }
