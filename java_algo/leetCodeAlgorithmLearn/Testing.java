@@ -1,73 +1,54 @@
+import java.io.IOException;
 import java.util.*;
 
 public class Testing {
-    public static void main(String[] args) {
-        int[][] grid = {
-                { 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0 },
-                { 0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0 },
-                { 0, 1, 0, 0, 1, 1, 0, 0, 1, 0, 1, 0, 0 },
-                { 0, 1, 0, 0, 1, 1, 0, 0, 1, 1, 1, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0 },
-                { 0, 0, 0, 0, 0, 0, 0, 1, 1, 0, 0, 0, 0 }
-        };
-        int[][] grid2 = { { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 } };
-        int[][] grid3 = { { 0, 1 }, { 1, 1 } };
-        System.out.println(maxAreaOfIsland(grid3));
+    public static void main(String[] args) throws IOException {
+        int[] arr = { 2, 53, 21, 35, 38, 65, 66, 43, 31, 93, 16, 22, 52, 3, 37, 78, 30, 90, 84, 97, 69, 63, 1, 98, 76,
+                13, 32, 41, 68, 15, 55, 27, 82, 33, 91, 79, 12, 42, 36, 25, 86, 60, 45, 85, 96, 8, 9, 49, 44, 40, 20,
+                11, 18, 58, 71, 95, 26, 23, 88 };
+        int target = 1812;
+        int[] arr2 = { 0, 1 };
+        target = 6;
+        System.out.println(sol(arr2, target));
     }
 
-    public static int maxAreaOfIsland(int[][] grid) {
-        int result = 0;
-        for (int i = 0; i < grid.length; i++) {
-            for (int j = 0; j < grid[i].length; j++) {
-                // result = Math.max(result, helperBfs(grid, i, j));
-                int get = helperDfs(grid, i, j);
-                System.out.print(get + " ");
-                result = Math.max(result, get);
-            }
-            System.out.println();
-        }
-        return result;
+    public static int sol(int[] arr, int n) {
+        Set<Integer> firstSet = new HashSet<>();
+        firstSet.addAll(Arrays.stream(arr).boxed().toList());
+        if (firstSet.contains(n))
+            return 1;
+        return recur(firstSet, arr, 2, n);
     }
 
-    public static int helperDfs(int[][] grid, int i, int j) {
-        if (i < 0 || j < 0 || i >= grid.length || j >= grid[0].length || grid[i][j] != 1) {
-            return 0;
-        } else {
-            grid[i][j] = -1;
-            int a = helperDfs(grid, i, j + 1); // 0 추가 // 0
-            int b = helperDfs(grid, i + 1, j); // 1 추가 // 0
-            int c = helperDfs(grid, i, j - 1); // 0 추가 // 1추가
-            int d = helperDfs(grid, i - 1, j); // 0 추가 // 0추가 토탈 3;
-            return 1 + a + b + c + d;
-        }
-    }
-
-    public static int helperBfs(int[][] grid, int i, int j) {
-        int result = 0;
-        int[] directions = { 0, 1, 0, -1, 0 };
-        Queue<int[]> q = new LinkedList<>();
-        q.add(new int[] { i, j });
-        while (!q.isEmpty()) {
-            int[] cur = q.poll();
-            if (grid[cur[0]][cur[1]] == 1) {
-                result++;
-                grid[cur[0]][cur[1]] = -1;
-                for (int k = 1; k < directions.length; k++) {
-                    int nRow = cur[0] + directions[k - 1];
-                    int nCol = cur[1] + directions[k];
-                    if (nCol < 0 || nRow < 0 || nCol >= grid[0].length || nRow >= grid.length
-                            || grid[nRow][nCol] != 1) {
-                        continue;
-                    } else {
-                        q.add(new int[] { nRow, nCol });
-                    }
+    public static int recur(Set<Integer> arr, int[] basic, int depth, int target) {
+        Set<Integer> result = new HashSet<>();
+        if (depth == 100)
+            return -1;
+        // 새로운 셋을 다음 재귀로 넘겨주기위해 위와같이 선언했습니다.
+        for (int num : arr) {
+            for (int i = 0; i < basic.length; i++) {
+                int sum = num + basic[i]; // 더한경우
+                int multi = num * basic[i]; // 곱한경우
+                if (sum == target || multi == target) {
+                    result.add(sum);
+                    result.add(multi);
+                    break;
                 }
-            } else {
-                continue;
+                // 타겟보다 넘친다면 굳이 추가할필요없어서 버렸습니다.
+                if (sum < target) {
+                    result.add(sum);
+                }
+                if (multi < target) {
+                    result.add(multi);
+                }
             }
         }
-        return result;
+        // 만약 추가된 상태라면 현재 뎁스에 +1
+        if (result.contains(target)) {
+            return depth;
+        } else {
+            // 아니라면 만들어진 새로운 세트를 넘겨줍니다.
+            return recur(result, basic, depth + 1, target);
+        }
     }
 }
