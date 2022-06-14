@@ -1,30 +1,55 @@
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 
 public class Test {
     public static void main(String[] args) throws IOException {
         Sol s = new Sol();
-        int[] arr = { -7, -3, -2, 5, 8 };
+        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
+        int n = Integer.parseInt(bf.readLine());
+        int[] arr = new int[n];
+        String[] items = bf.readLine().split(" ");
+        for (int i = 0; i < arr.length; i++) {
+            arr[i] = Integer.parseInt(items[i]);
+        }
+        bf.close();
         s.sol(arr);
     }
 }
 
 class Sol {
-    int answer = 0;
+    int minAnswer;
 
     public void sol(int[] arr) {
-        recur(arr, 0, 0);
-        System.out.println(answer - 1);
+        minAnswer = Integer.MIN_VALUE;
+        boolean[] visit = new boolean[arr.length];
+        int[] out = new int[arr.length];
+        perMutation(arr, visit, out, 0);
+        System.out.println(minAnswer);
     }
 
-    public void recur(int[] arr, int sum, int idx) {
-        if (idx >= arr.length) {
-            if (sum == 0) {
-                answer++;
-            }
-            return;
+    public void perMutation(int[] arr, boolean[] visit, int[] out, int depth) {
+        if (depth == out.length) {
+            minAnswer = Math.max(minAnswer, cal(out));
         }
-        recur(arr, sum + arr[idx], idx + 1);
-        recur(arr, sum, idx + 1);
+        for (int i = 0; i < arr.length; i++) {
+            if (visit[i] != true) {
+                visit[i] = true;
+                out[depth] = arr[i];
+                perMutation(arr, visit, out, depth + 1);
+                visit[i] = false;
+            }
+        }
+
     }
+
+    public int cal(int[] arr) {
+        int result = 0;
+        for (int i = 0; i < arr.length - 1; i++) {
+            result += Math.abs(arr[i] - arr[i + 1]);
+        }
+        return result;
+    }
+
 }
