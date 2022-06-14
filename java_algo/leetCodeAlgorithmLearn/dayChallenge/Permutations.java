@@ -1,3 +1,5 @@
+package dayChallenge;
+
 import java.util.*;
 
 public class Permutations {
