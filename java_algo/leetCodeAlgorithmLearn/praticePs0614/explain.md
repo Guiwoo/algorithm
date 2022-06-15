@@ -6,6 +6,7 @@
 - 제한사항
   - 트리안의 노드의 갯수는 0 ~ 2^12-1
   - -1000<= 노드 의 벨류 <= 1000
+    [🚀 릿코드 바로가기](https://leetcode.com/problems/populating-next-right-pointers-in-each-node/)
 
 ```java
 struct Node {
@@ -22,7 +23,9 @@ struct Node {
 - 위에 보이는 거와 같이 각 노드 의 오른쪽 노드를 등록해준다.
 - 오른쪽이 비어 있다면 null 로 표시한다.
   - 1,3,7 노드 오른쪽 포인터는 null 이다.
-- 가장 왼쪽 노드 들은 첫번째 오른쪽 포인터 시작점 으로 왼쪽으로 부터 포인팅을 받지 않는다.
+    Input: root = [1,2,3,4,5,6,7];
+    Output = [1,#,2,3,#,4,5,6,7,#];
+  - "#" 은 노드 레벨에서의 끝을 의미한다.
 
 Example 2:
 Input: root = []
@@ -36,19 +39,22 @@ outPut []
   - 스택을 구현한 공간은 추가 공간으로 취급되지 않아, 재귀적 접근 또한 가능하다.
 
 - 관련주제
+
   - LinkedList, Tree, Dfs,Bfs,BinaryTree
 
-[릿코드 바로가기](https://leetcode.com/problems/populating-next-right-pointers-in-each-node/)
-
 - 작성은 IDE 에서 하시고 코드 통과 여부는 릿코드에 가셔서 하시는걸 추천드립니다.
-
-- 아래와 Solution class 안의 connet 함수 작성;
+  [🚀 릿코드 바로가기](https://leetcode.com/problems/populating-next-right-pointers-in-each-node/)
 
 ```java
-Node testCase = new Node(1,new Node(2,new Node(4),new Node(5),null),new Node(3,new Node(6),new Node(7),null),null);
+// Test 노드 는 아래 복사붙여넣기하셔서 사용하시면 됩니다.
+Node ex1 = new Node(1,new Node(2,new Node(4),new Node(5),null),new Node(3,new Node(6),new Node(7),null),null);
 
-Node testCase = new Node();
+Node ex2 = new Node();
 ```
+
+- 아래와 Solution class 안의 connet 함수 작성;
+- 작성은 IDE 에서 하시고 코드 통과 여부는 릿코드에 가셔서 하시는걸 추천드립니다.
+  [🚀 릿코드 바로가기](https://leetcode.com/problems/populating-next-right-pointers-in-each-node/)
 
 ```java
 /*
