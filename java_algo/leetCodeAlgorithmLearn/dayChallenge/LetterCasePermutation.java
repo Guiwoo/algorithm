@@ -1,5 +1,6 @@
 package dayChallenge;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -10,6 +11,13 @@ public class LetterCasePermutation {
         ReucrLetterPermutation r = new ReucrLetterPermutation();
         r.recur("a1b2".toCharArray(), 0, r.alphabet);
         System.out.println(r.set);
+        Character c = 'c';
+        System.out.println(Character.isDigit(c));
+
+        System.out.println("===== bit mask answer =====");
+        BitMaskWay bit = new BitMaskWay();
+        System.out.println(bit.letterCasePermutation("a1b2"));
+
     }
 }
 
@@ -50,5 +58,31 @@ class ReucrLetterPermutation {
                 continue;
             }
         }
+    }
+}
+
+class BitMaskWay {
+    public List<String> letterCasePermutation(String s) {
+        int cnt = 0;
+        for (char c : s.toCharArray()) {
+            if (Character.isLetter(c)) {
+                cnt++;
+            }
+        }
+        List<String> result = new ArrayList<String>();
+        for (int i = 0; i < 1 << cnt; i++) {
+            StringBuilder sb = new StringBuilder();
+            int bit = 1;
+            for (char c : s.toCharArray()) {
+                if (Character.isDigit(c)) {
+                    sb.append(c);
+                } else {
+                    sb.append((bit & i) == 0 ? Character.toLowerCase(c) : Character.toUpperCase(c));
+                    bit <<= 1;
+                }
+            }
+            result.add(sb.toString());
+        }
+        return result;
     }
 }
