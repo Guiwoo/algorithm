@@ -1,24 +1,86 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.Arrays;
+
+import java.util.*;
+import java.io.*;
 
 public class Test {
+    static int[][] grid;
+
     public static void main(String[] args) throws IOException {
-        Sol s = new Sol();
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        int n = Integer.parseInt(bf.readLine());
-        int[] arr = new int[n];
-        String[] items = bf.readLine().split(" ");
-        for (int i = 0; i < arr.length; i++) {
-            arr[i] = Integer.parseInt(items[i]);
+        grid = new int[10][10];
+        for (int i = 1; i < grid.length; i++) {
+            String[] line = bf.readLine().split(" ");
+            for (int j = 0; j < line.length; j++) {
+                grid[i][j + 1] = Integer.parseInt(line[j]);
+            }
         }
+        dfs(0, 0);
+
+        for (int i = 1; i < grid.length; i++) {
+            for (int j = 1; j < grid[i].length; j++) {
+                System.out.print(grid[i][j] + " ");
+            }
+            System.out.println();
+        }
+
         bf.close();
-        s.sol(arr);
+    }
+
+    public static void dfs(int row, int col) {
+        if (col == 9) {
+            dfs(row + 1, 0);
+            return;
+        }
+        if (row == 9) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < 9; i++) {
+                for (int j = 0; j < 9; j++) {
+                    sb.append(grid[i][j]).append(' ');
+                }
+                sb.append('\n');
+            }
+            System.out.println(sb);
+
+            System.exit(0);
+        }
+        if (grid[row][col] == 0) {
+            for (int i = 1; i < 10; i++) {
+                if (checkNUm(row, col, i)) {
+                    grid[row][col] = i;
+                    dfs(row, col + 1);
+                }
+            }
+            grid[row][col] = 0;
+            return;
+        }
+        dfs(row, col + 1);
+    }
+
+    public static boolean checkNUm(int row, int col, int val) {
+        // column check
+        for (int i = 1; i < 10; i++) {
+            if (grid[i][col] == val)
+                return false;
+        }
+        // rwo check
+        for (int i = 1; i < 10; i++) {
+            if (grid[row][i] == val)
+                return false;
+        }
+        // 3*3 check
+        int startRow = row < 4 ? 1 : row < 7 ? 4 : 7;
+        int startCol = col < 4 ? 1 : col < 7 ? 4 : 7;
+        for (int i = startRow; i < startRow + 3; i++) {
+            for (int j = startCol; j < startCol + 3; j++) {
+                if (grid[i][j] == val)
+                    return false;
+            }
+        }
+        return true;
     }
 }
 
-class Sol {
+class BojMissed {
     int minAnswer;
 
     public void sol(int[] arr) {
