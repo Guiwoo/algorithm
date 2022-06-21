@@ -1,28 +1,31 @@
-import java.util.PriorityQueue;
+import java.util.stream.IntStream;
+import java.util.*;
 
 public class Testing {
     public static void main(String[] args) {
-        MaxPorfit m = new MaxPorfit();
-        int rs = m.maxProfit(new int[] { 7, 1, 5, 3, 6, 4 });
-        System.out.println(rs);
+
     }
 }
 
-class MaxPorfit {
-    public int maxProfit(int[] prices) {
-        int lowestPrice = Integer.MAX_VALUE;
-        int profit = 0;
-        int current = 0;
-
-        for (int i = 0; i < prices.length; i++) {
-            if (prices[i] < lowestPrice) {
-                lowestPrice = prices[i];
-            }
-            current = prices[i] - lowestPrice;
-            if (profit < current) {
-                profit = current;
+class MatrixReShape {
+    public int[][] matrixReshape(int[][] mat, int r, int c) {
+        if (mat.length * mat[0].length < r * c)
+            return mat;
+        int[][] answer = new int[r][c];
+        int curRow = 0;
+        int curCol = 0;
+        for (int i = 0; i < mat.length; i++) {
+            for (int j = 0; j < mat[i].length; j++) {
+                int target = mat[i][j];
+                if (curCol >= c) {
+                    curRow++;
+                    curCol = 0;
+                } else {
+                    answer[curRow][curCol] = target;
+                    curCol++;
+                }
             }
         }
-        return profit;
+        return answer;
     }
 }
