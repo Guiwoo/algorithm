@@ -1,7 +1,10 @@
+package BruteForce;
+
 import java.io.*;
 import java.util.*;
 
-public class Test {
+public class Boj1251 {
+
     public static void main(String[] args) throws IOException {
 
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
