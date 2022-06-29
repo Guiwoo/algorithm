@@ -1,39 +1,29 @@
-import java.util.*;
+import java.io.*;
+import java.util.StringTokenizer;
 
 public class Testing {
-  public static void main(String[] args) {
-    Solution s = new Solution();
-    ListNode n = new ListNode(3);
-    ListNode n1 = new ListNode(2);
-    ListNode n2 = new ListNode(0);
-    ListNode n3 = new ListNode(-4);
-  }
-}
+  public static void main(String[] args) throws Exception {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    String[] inputs = br.readLine().split(" ");
+    int[] arr = new int[Integer.parseInt(inputs[0])];
+    int day = Integer.parseInt(inputs[1]);
 
-class ListNode {
-  int val;
-  ListNode next;
-
-  ListNode(int x) {
-    val = x;
-    next = null;
-  }
-}
-
-class Solution {
-  public boolean hasCycle(ListNode head) {
-    Map<ListNode, Integer> map = new HashMap<>();
-    ListNode cur = head;
-    int idx = 0;
-    if (cur == null)
-      return false;
-    while (!map.containsKey(cur) && cur != null) {
-      map.put(cur, idx);
-      idx++;
-      cur = cur.next;
+    String[] input2 = br.readLine().split(" ");
+    for (int i = 0; i < input2.length; i++) {
+      arr[i] = Integer.parseInt(input2[i]);
     }
-    if (map.containsKey(cur))
-      return true;
-    return false;
+
+    int curSum = 0;
+    int max = 0;
+    for (int i = 0; i < day; i++) {
+      curSum += arr[i];
+      max += arr[i];
+    }
+
+    for (int i = day; i < arr.length - day + 1; i++) {
+      curSum += (arr[i] - arr[i - day]);
+      max = Math.max(curSum, max);
+    }
+    System.out.println(max);
   }
 }
