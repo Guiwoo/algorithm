@@ -1,4 +1,4 @@
-package praticePs0614;
+package pracitGroup.praticePs0614;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

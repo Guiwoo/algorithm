@@ -11,8 +11,3 @@ package dataStructureChallenge;
  * }
  * }
  */
-public class LinkedListCycle {
-    public boolean hasCycle(ListNode head) {
-
-    }
-}

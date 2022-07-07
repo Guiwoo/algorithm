@@ -1,4 +1,4 @@
-package practicePs0621;
+package pracitGroup.practicePs0621;
 
 import java.util.stream.IntStream;
 
