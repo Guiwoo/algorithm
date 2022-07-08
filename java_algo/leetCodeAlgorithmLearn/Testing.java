@@ -2,58 +2,35 @@ import java.util.*;
 
 public class Testing {
   public static void main(String[] args) throws Exception {
-    // Combination c = new Combination();
-    // c.combi(4, 2);
     Solution s = new Solution();
-    List<List<Integer>> ls = s.combine(4, 2);
-    for (List<Integer> x : ls) {
-      System.out.println(x);
-    }
+
+    String s1 = "aaa", s2 = "abc", s3 = "aaabca";
+    boolean b = s.isInterleave(s1, s2, s3);
+    System.out.println(b);
   }
 }
 
 class Solution {
-  public List<List<Integer>> combine(int n, int k) {
-    List<List<Integer>> ans = new LinkedList();
-    if (n < k || k == 0)
-      return ans;
+  public boolean isInterleave(String s1, String s2, String s3) {
+    if (s1.length() + s2.length() != s3.length())
+      return false;
+    boolean[][] visit = new boolean[s1.length() + 1][s2.length() + 1];
+    Queue<int[]> q = new LinkedList<>();
+    q.offer(new int[] { 0, 0 });
 
-    ans = combine(n - 1, k - 1);
+    while (!q.isEmpty()) {
+      int[] p = q.poll();
+      if (visit[p[0]][p[1]])
+        continue;
+      if (p[0] == s1.length() && p[1] == s2.length())
+        return true;
 
-    if (ans.isEmpty())
-      ans.add(new LinkedList<Integer>());
-    for (List<Integer> list : ans) {
-      list.add(n);
-      System.out.println(list);
+      if (p[0] < s1.length() && s1.charAt(p[0]) == s3.charAt(p[0] + p[1]))
+        q.offer(new int[] { p[0] + 1, p[1] });
+      if (p[1] < s2.length() && s2.charAt(p[1]) == s3.charAt(p[0] + p[1]))
+        q.offer(new int[] { p[0], p[1] + 1 });
+      visit[p[0]][p[1]] = true;
     }
-    ;
-
-    ans.addAll(combine(n - 1, k));
-    for (List<Integer> list : ans) {
-      System.out.println("=======");
-      System.out.println(list);
-    }
-    ;
-    return ans;
-  }
-}
-
-class Combination {
-
-  public void combi(int n, int k) {
-    int[] out = new int[k];
-    helper(n, out, 0, 0);
-  }
-
-  public void helper(int n, int[] out, int depth, int start) {
-    if (depth == out.length) {
-      System.out.println(Arrays.toString(out));
-      return;
-    } else {
-      for (int i = start; i < n; i++) {
-        out[depth] = i + 1;
-        helper(n, out, depth + 1, i + 1);
-      }
-    }
+    return false;
   }
 }
