@@ -1,36 +1,25 @@
-import java.util.*;
+import java.util.Arrays;
 
 public class Testing {
   public static void main(String[] args) throws Exception {
-    Solution s = new Solution();
-
-    String s1 = "aaa", s2 = "abc", s3 = "aaabca";
-    boolean b = s.isInterleave(s1, s2, s3);
-    System.out.println(b);
+    int[] arr = new int[] { 0, 1, 0, 3, 2, 3 };
+    System.out.println(lengthOfLIS(arr));
   }
-}
 
-class Solution {
-  public boolean isInterleave(String s1, String s2, String s3) {
-    if (s1.length() + s2.length() != s3.length())
-      return false;
-    boolean[][] visit = new boolean[s1.length() + 1][s2.length() + 1];
-    Queue<int[]> q = new LinkedList<>();
-    q.offer(new int[] { 0, 0 });
-
-    while (!q.isEmpty()) {
-      int[] p = q.poll();
-      if (visit[p[0]][p[1]])
-        continue;
-      if (p[0] == s1.length() && p[1] == s2.length())
-        return true;
-
-      if (p[0] < s1.length() && s1.charAt(p[0]) == s3.charAt(p[0] + p[1]))
-        q.offer(new int[] { p[0] + 1, p[1] });
-      if (p[1] < s2.length() && s2.charAt(p[1]) == s3.charAt(p[0] + p[1]))
-        q.offer(new int[] { p[0], p[1] + 1 });
-      visit[p[0]][p[1]] = true;
+  public static int lengthOfLIS(int[] arr) {
+    int n = arr.length;
+    int[] dp = new int[n + 1];
+    int rs = 0;
+    for (int i = 1; i <= n; i++) {
+      dp[i] = 1;
+      for (int j = 1; j < i; j++) {
+        if (arr[j - 1] < arr[i - 1]) {
+          dp[i] = Math.max(dp[i], dp[j] + 1);
+        }
+      }
+      rs = Math.max(dp[i], rs);
     }
-    return false;
+
+    return rs;
   }
 }
