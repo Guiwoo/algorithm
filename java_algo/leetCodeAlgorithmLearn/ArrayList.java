@@ -1,4 +1,5 @@
+package leetCodeAlgorithmLearn;
 
-public class ArrayList<T> {
+public class ArrayList {
 
 }

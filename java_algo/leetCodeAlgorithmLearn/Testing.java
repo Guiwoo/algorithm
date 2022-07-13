@@ -1,25 +1,30 @@
+package leetCodeAlgorithmLearn;
+
 import java.util.Arrays;
 
 public class Testing {
   public static void main(String[] args) throws Exception {
-    int[] arr = new int[] { 0, 1, 0, 3, 2, 3 };
-    System.out.println(lengthOfLIS(arr));
+    int[] arr = new int[] { 1, 2, 0, 0, 8 };
+    System.out.println(rob(arr));
   }
 
-  public static int lengthOfLIS(int[] arr) {
-    int n = arr.length;
-    int[] dp = new int[n + 1];
-    int rs = 0;
-    for (int i = 1; i <= n; i++) {
-      dp[i] = 1;
-      for (int j = 1; j < i; j++) {
-        if (arr[j - 1] < arr[i - 1]) {
-          dp[i] = Math.max(dp[i], dp[j] + 1);
-        }
-      }
-      rs = Math.max(dp[i], rs);
+  public static int rob(int[] nums) {
+    int preMax = 0, curMax = 0;
+    for (int i = 0; i < nums.length - 1; i++) {
+      int t = curMax;
+      curMax = Math.max(preMax + nums[i], curMax);
+      preMax = t;
     }
+    return curMax;
+  }
 
-    return rs;
+  public static int rob2(int[] nums) {
+    int preMax = 0, curMax = 0;
+    for (int i = 1; i < nums.length; i++) {
+      int t = curMax;
+      curMax = Math.max(preMax + nums[i], curMax);
+      preMax = t;
+    }
+    return curMax;
   }
 }
