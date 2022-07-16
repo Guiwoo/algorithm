@@ -2,96 +2,93 @@ import java.sql.Array;
 import java.util.*;
 public class Main {
     public static void main(String[] args) {
-//    int[] votes = new int[]{4,3,2,3,3,3,3,1,2,2,3};
-//    Solution s = new Solution();
-//        System.out.println(s.solution(votes));
-//    }
-//        Solution422 s = new Solution422();
-//        s.solution("2552552551");
-        Solution455 s = new Solution455();
-        s.solution("12321321321");
+//        int[] start = {3, 2, 1};
+//        int[] end = {12, 12, 12};
+//        int[] price = {100, 200, 399};
+
+        Solution s = new Solution();
+//        int[][] maze = {{0,1,0}, {0, 2, 0}, {1, 0,0}};
+//        System.out.println(s.solution(maze));
+        int[] W = {6, 4, 5, 6, 8, 9, 10, 3};
+        int[] V = {10, 4, 6, 8, 2, 8, 5, 6};
+        s.solution(8,10,15,W,V);
+    }
+}
+
+class SolutionBFS {
+    int count;
+    public int solution(int[][] maze) {
+        int count = 0;
+        int row = 0,col =0;
+        int[] dirs = {0,1,0};
+        boolean[][] visit = new boolean[maze.length][maze[0].length];
+        Queue<int[]> q = new LinkedList<>();
+        q.add(new int[]{row,col,keyCheck(row,col,maze)});
+        while(!q.isEmpty()){
+            int[] pos = q.poll();
+            visit[pos[0]][pos[1]] = true;
+            System.out.println(Arrays.toString(pos));
+            int key = pos[2];
+            if(pos[0] == maze.length-1 && pos[1] == maze[0].length-1 && pos[2] != 0){
+                count++;
+            }
+            for (int i = 1; i < dirs.length; i++) {
+                int nRow = pos[0]+ dirs[i-1];
+                int nCol = pos[1] + dirs[i];
+                if(0<= nRow && 0<= nCol && nRow < maze.length && nCol < maze[0].length && maze[nRow][nCol] != 1 && visit[nRow][nCol] == false){
+                    if(key == 2){
+                        q.add(new int[]{nRow,nCol,key});
+                    }else {
+                        q.add(new int[]{nRow, nCol, keyCheck(nRow, nCol, maze)});
+                    }
+                }
+            }
+        }
+        return count%1007;
+    }
+    public int keyCheck(int row,int col,int[][] maze){
+        if(maze[row][col] == 2) return 2;
+        return 0;
     }
 }
 
 class Solution {
-    public int solution(int[] votes) {
-        Arrays.sort(votes);
-        if(votes[0] == votes[votes.length-1]) return votes[0];
-        int[] answer= helper(votes,0);
-        return answer[0];
-    }
-    int curDive =Integer.MAX_VALUE;
-    boolean found = false;
-    public int[] helper(int[] votes,int dive){
-        int left = 0;
-        int right = votes.length;
-        if(!found && votes[left] == votes[right]){
-            found = true;
-            return new int[]{votes[left],dive};
-        }else{
-            int mid = left +(right-left)/2;
-            int[] leftArr = Arrays.copyOfRange(votes,left,mid);
-            int[] rightArr = Arrays.copyOfRange(votes,mid,right);
+    public int solution(int[] start, int[] end, int[] price) {
+        int dp[] = new int[10001];
+        int last = 0;
+        int first = 0;
+        PriorityQueue<Schedlue> q = new PriorityQueue<>();
+        for (int i = 0; i < start.length; i++) {
+            q.add(new Schedlue(start[i],end[i],price[i]));
+        }
+        while(!q.isEmpty()){
+            Schedlue cur = q.poll();
+            last = cur.end;
+            for(int i=first;i<=cur.start;i++){
+                dp[last] = Math.max(dp[last],dp[i]+cur.price);
+            }
+            first = cur.start;
+        }
 
-            int[] leftAn = helper(leftArr,dive+1);
-            int[] rightAn = helper(rightArr,dive+1);
-            if(leftAn[1] < rightAn[1]) return leftAn;
-            else return rightAn;
-        }
+        return Math.max(dp[last],dp[last]);
     }
-}
-class Solution422 {
-    List<String> list;
-    String target;
-    public String[] solution(String s) {
-        list = new ArrayList<>();
-        this.target = s;
-        combination(5,new int[3],0,0);
-        Collections.sort(list);
-        String[] answer = new String[list.size()];
-        for (int i = 0; i < list.size(); i++) {
-            answer[i] = list.get(i);
+    class Schedlue implements Comparable<Schedlue>{
+        int start;
+        int end;
+        int price;
+        Schedlue(int start,int end, int price){
+            this.start=start;
+            this.end = end;
+            this.price = price;
         }
-        System.out.println(list);
-        return answer;
-    }
-    public void combination(int n,int[] out,int idx,int depth){
-        if(depth == 3){
-            StringBuilder sb = new StringBuilder();
-            int cur = 0;
-            int cnt = 0;
-            for (int i = 0; i < out.length; i++) {
-                int curIdx = out[i];
-                String rs = target.substring(cur,curIdx+1);
+        @Override
+        public int compareTo(Schedlue o) {
+            return this.start - o.start;
+        }
 
-                if(rs != "")cnt++;
-                if(rs.charAt(0) == '0' && rs.length() > 1)return;
-                sb.append(rs+".");
-                cur = curIdx+1;
-            }
-            if(cur < target.length()){
-                String rs = target.substring(cur);
-                if(rs != "") cnt++;
-                if(rs.charAt(0) == '0'&& rs.length() > 1)return;
-                sb.append(rs+".");
-            }
-            sb.deleteCharAt(sb.length()-1);
-            if(cnt == 4)list.add(sb.toString());
-            return;
-        }else{
-            for (int i = idx; i < n; i++) {
-                out[depth] = i;
-                combination(n,out,i+1,depth+1);
-            }
+        @Override
+        public String toString() {
+            return this.start+" "+this.end +" "+this.price;
         }
-    }
-}
-class Solution455 {
-    Map<Integer,Integer> fibo;
-    public int[] solution(String nums) {
-        return null;
-    }
-    public boolean helper(int start,int end,String nums){
-        return false;
     }
 }

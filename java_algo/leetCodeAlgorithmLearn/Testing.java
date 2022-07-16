@@ -1,4 +1,4 @@
-package leetCodeAlgorithmLearn;
+// package leetCodeAlgorithmLearn;
 
 import java.util.Arrays;
 
@@ -9,7 +9,8 @@ public class Testing {
   }
 
   public static int rob(int[] nums) {
-    int preMax = 0, curMax = 0;
+    int curMax = 0;
+    int preMax = 0;
     for (int i = 0; i < nums.length - 1; i++) {
       int t = curMax;
       curMax = Math.max(preMax + nums[i], curMax);
