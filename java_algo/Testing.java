@@ -7,5 +7,10 @@ public class Testing {
 }
 
 class Practice {
-Cursor c=database.dis(String.valueOf(Math.cos((double) distance / (double) 6380)), Math.cos(deg2rad(latitude)), Math.sin(deg2rad(latitude)), Math.cos(deg2rad(longitude)), Math.sin(deg2rad(longitude)));
+    double latCos = 0.792792136894415;
+    double latSin = 0.609492106329842;
+    double lntCos = -0.600411711442392;
+    double lntSin = 0.609492106329842;
+    
 }
+

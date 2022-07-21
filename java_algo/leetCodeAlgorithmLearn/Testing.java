@@ -1,31 +1,22 @@
-// package leetCodeAlgorithmLearn;
 
-import java.util.Arrays;
+// package leetCodeAlgorithmLearn;
+import java.util.*;
 
 public class Testing {
   public static void main(String[] args) throws Exception {
-    int[] arr = new int[] { 1, 2, 0, 0, 8 };
-    System.out.println(rob(arr));
+    Solution s = new Solution();
+    System.out.println(s.pivotIndex(new int[] { 2, 1, -1 }));
   }
+}
 
-  public static int rob(int[] nums) {
-    int curMax = 0;
-    int preMax = 0;
-    for (int i = 0; i < nums.length - 1; i++) {
-      int t = curMax;
-      curMax = Math.max(preMax + nums[i], curMax);
-      preMax = t;
+class Solution {
+  public int pivotIndex(int[] nums) {
+    int total = Arrays.stream(nums).sum();
+    int sum = 0;
+    for (int i = 0; i < nums.length; sum += nums[i++]) {
+      if (sum * 2 == total - nums[i])
+        return i;
     }
-    return curMax;
-  }
-
-  public static int rob2(int[] nums) {
-    int preMax = 0, curMax = 0;
-    for (int i = 1; i < nums.length; i++) {
-      int t = curMax;
-      curMax = Math.max(preMax + nums[i], curMax);
-      preMax = t;
-    }
-    return curMax;
+    return -1;
   }
 }
