@@ -4,20 +4,26 @@ import java.util.*;
 
 public class Testing {
   public static void main(String[] args) throws Exception {
-    Solution s = new Solution();
-    System.out.println(s.pivotIndex(new int[] { 1, 7, 3, 6, 5, 6 }));
-  }
-}
-
-class Solution {
-  public int pivotIndex(int[] nums) {
-    int total = Arrays.stream(nums).sum();
-    int cur = 0;
-    for (int i = 0; i < nums.length; i++) {
-      if (cur == total - cur - nums[i])
-        return i;
-      cur += nums[i];
+    Map<Integer, Boolean> map = new HashMap<Integer, Boolean>();
+    int idx = 1;
+    while (true) {
+      int x = gen();
+      if (map.containsKey(x)) {
+        break;
+      }
+      map.put(x, true);
+      System.out.println(idx + "실행");
+      idx++;
     }
-    return -1;
+  }
+
+  public static int gen() {
+    int x = 0;
+    Random rand = new Random();
+    for (int i = 0; i < 10; i++) {
+      x = x * 10 + rand.nextInt(9);
+      ;
+    }
+    return x;
   }
 }
