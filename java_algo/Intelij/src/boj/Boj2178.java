@@ -1,16 +1,13 @@
-import java.io.*;
-import java.util.*;
+package boj;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.LinkedList;
+import java.util.Queue;
 
-public class Main {
-    public static void main(String[] args) throws IOException {
-        Boj n = new Boj();
-        n.main();
-    }
-}
-
-class Boj{
-    public void main() throws IOException{
+class Boj2178{
+    public void main() throws IOException {
         BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
         String[] inputs = bf.readLine().split(" ");
         int N = Integer.parseInt(inputs[0]),M = Integer.parseInt(inputs[1]);
