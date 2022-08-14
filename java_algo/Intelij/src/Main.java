@@ -1,54 +1,54 @@
-import java.io.*;
-import java.util.*;
+import com.sun.security.jgss.GSSUtil;
 
+import java.io.*;
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        Boj n = new Boj();
-        n.main();
+        Solution s = new Solution();
+        int[][] maze ={
+                {0,0,0,0},
+                {1,1,1,0},
+                {1,0,0,0},
+                {0,0,0,0},
+                {0,1,1,1},
+                {0,1,0,0},
+        };
+        int[][] maze2 = {
+                {0,0,0},
+                {1,1,0},
+                {0,0,0},
+                {0,1,1},
+                {0,1,0}
+        };
+        int[] height = {2,1,5,6,2,3};
+        System.out.println(s.solution(height));
     }
 }
+class Solution {
+    public  static int solution(int[] heights) {
+        int max = 0;
 
-class Boj{
-    public void main() throws IOException{
-        BufferedReader bf = new BufferedReader(new InputStreamReader(System.in));
-        String[] inputs = bf.readLine().split(" ");
-        int N = Integer.parseInt(inputs[0]),M = Integer.parseInt(inputs[1]);
-        int[][] map = new int[N][M];
-        // 1 은 이동 가능 하고 , 9은 이동 할수없다.
-        // 마지막 칸에 도착하는 최소의 경우의 수를 구하시오
-        // 칸을 셀떄 시작 위치와 도착 위치를 포함한다.
-        for (int i = 0; i < N; i++) {
-            String[] input = bf.readLine().split("");
-            for (int j = 0; j < input.length; j++) {
-                map[i][j] = Integer.parseInt(input[j]);
-            }
-        }
-        int[][] visit = new int[N][M];
-        visit[0][0] = 1;
-        int[] dirs = {0,1,0,-1,0};
-
-        Queue<int[]> q = new LinkedList<>();
-        q.add(new int[]{0,0});
-        while(!q.isEmpty()){
-            int[] cur = q.poll();
-            int r=cur[0],c=cur[1];
-            if(r == N-1 && c == M-1){
-                break;
-            }
-            for (int i = 1; i < dirs.length; i++) {
-                int row = dirs[i] + r;
-                int col = dirs[i-1]+c;
-                if(row < 0 || col < 0 || row >= N || col >= M || map[row][col] == 0){
-                    continue;
+        for(int i = 0; i < heights.length; ++i){
+            int sideLength = 1;
+            int currHeight = heights[i];
+            if(heights[i]== 0) continue;
+            for(int j = i - 1; j >= 0; --j){
+                if(heights[j] < currHeight ){
+                    break;
                 }
-                if(map[row][col] == 1 && visit[row][col] == 0){
-                    q.offer(new int[] {row,col});
-                    visit[row][col] = visit[r][c]+1;
-                }
+                ++sideLength;
             }
+            for(int j = i + 1; j < heights.length; ++j){
+                if(heights[j] < currHeight ){
+                    break;
+                }
+                ++sideLength;
+            }
+            max = Math.max (max, currHeight * sideLength);  // (현재 높이 * 가능한 최대한의 밑변의 길이)
         }
-        System.out.println(visit[N-1][M-1]);
+        return max;
     }
-
 }
