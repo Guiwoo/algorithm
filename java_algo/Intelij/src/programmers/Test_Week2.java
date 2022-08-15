@@ -1,6 +1,8 @@
+package programmers;
+
 import java.util.*;
 
-public class Thing{
+public class Test_Week2{
     public static void main(String[] args) {
         Solution1 s = new Solution1();
         int[] num1 = {-2,3,0,2,-5};
