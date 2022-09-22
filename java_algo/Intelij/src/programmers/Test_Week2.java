@@ -63,11 +63,7 @@ class Solution2 {
         HashMap<Integer, Integer> topping2 = new HashMap<>();
 
         Arrays.stream(topping).forEach(i -> {
-            if(topping2.get(i) == null) {
-                topping2.put(i, 1);
-            } else {
-                topping2.put(i, topping2.get(i) + 1);
-            }
+            topping2.merge(i, 1, Integer::sum);
         });
 
         for (int i = 0; i < topping.length; i++) {
