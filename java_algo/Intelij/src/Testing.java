@@ -3,177 +3,133 @@ import java.util.stream.Collectors;
 
 public class Testing{
     public static void main(String[] args) {
-//        Solution1 s = new Solution1();
-//        int[] arr2 = {10, 4, 9, 6, 8, 1, 9, 4, 10, 4};
-//        System.out.println(Arrays.stream(arr2).sum());
-        Solution2 s2 = new Solution2();
-        System.out.println(s2.solution(10));
-//        Solution4 s4 = new Solution4();
-//        int[] x = {4, 12, 15, 19, 21, 25};
-//        int[] y = {8, -4, 7, 1, 4, -9};
-//        System.out.println(s4.solution(x,y,4));
-//        Solution5 s = new Solution5();
-//        int[][] arr = {{0,1},{0,2},{5,3},{4,3}};
-//        s.solution(6, arr);
+
     }
 }
 
 class Solution1 {
     public int solution(int[] food) {
-        int sum = Arrays.stream(food).sum();
-        if(sum%2 == 0){
-            return sum/2;
-        }else{
-            return sum/2+1;
+        int[] sorted = Arrays.stream(food)
+                .boxed()
+                .sorted(Collections.reverseOrder())
+                .mapToInt(Integer::intValue)
+                .toArray();
+
+        int count = 0;
+        int currentFood = sorted[0];
+        for (int i = 1; i < sorted.length; i++) {
+            int newFood = sorted[i];
+            if(newFood < currentFood){
+                currentFood -= newFood;
+                count += newFood;
+            }else{
+                count += currentFood;
+                currentFood = newFood-currentFood;
+            }
         }
+        count += currentFood;
+        return count;
     }
 }
-
 class Solution2{
     public int solution(int n) {
-        boolean[] dp = new boolean[n*n+n];
-        if(n==1)return 1;
-        dp[1] = true;
-        dp[2] = true;
-        dp[3] = true;
-        dp[5] = true;
-        int cnt = 1;
-        int current = 2;
-        while(cnt < n){
-            if(current > n*n){break;}
+        int second = 0,third = 0,fifth=0;
+        int[] dp = new int[n];
+        dp[0] = 1;
+        for (int i = 1; i < n; i++) {
+            int m2 = 2*dp[second];
+            int m3 = 3*dp[third];
+            int m5 = 5*dp[fifth];
 
-            if(current%2 == 0 && dp[current/2]){
-                dp[current] = true;
-                cnt++;
-            }else if(current%3 == 0 && dp[current/3]){
-                dp[current] = true;
-                cnt++;
-            }else if (current%5 ==0 && dp[current/5]){
-                dp[current] = true;
-                cnt++;
+            dp[i] = Math.min(m2,Math.min(m3,m5));
+            if(dp[i] == m2){
+                second++;
             }
+            if(dp[i] == m3){
+                third++;
             }
-            for (int i = current+1; i < dp.length; i++) {
-                if(dp[i]){
-                    current =i;
-                    break;
-                }
+            if(dp[i] == m5){
+                fifth++;
             }
         }
+        return dp[n-1];
     }
 }
-
-class Solution {
+class Solution3{
     public String solution(int[][] points) {
-        boolean xEqual = false;
-        int curX = points[0][0];
-        boolean yEqual = false;
-        int curY = points[0][1];
+        int x1 = points[0][0], y1 = points[0][1];
+        int x2 = points[1][0], y2 = points[1][1];
+        int x3 = points[2][0], y3 = points[2][1];
 
-        for(int[] p :points){
-            xEqual = curX == p[0];
-            yEqual = curY == p[1];
-        }
+        int val = (x1*y2+x2*y3+x3*y1) - (x2*y1+x3*y2+x1*y3);
 
-        if(xEqual || yEqual) return "LINE";
-        return "CW";
+        if(val == 0) return "LINE";
+        else if (val > 0) return "CCW";
+        else return "CW";
     }
 }
+class Solution4{
+    public int solution(int[] x,int[] y,int k){
+        Deque<int[]> q = new ArrayDeque<>();
+        int ans = Integer.MIN_VALUE;
 
-class Solution4 {
-    public int solution(int[] x, int[] y, int k) {
-        int maxValue = 0;
         for (int i = 0; i < x.length; i++) {
-            int total = 0;
-            for (int j = i+1; j <= i+k; j++) {
-                if(j >= x.length) break;
-                int xDistance = Math.abs(x[i]-x[j]);
-                if(xDistance <= k){
-                    total = Math.max(total,Math.abs(x[i]-x[j])+y[i]+y[j]);
-                }
+            while(!q.isEmpty() && q.peek()[0] + k < x[i]){
+                q.remove();
             }
-            if(total > maxValue){
-                maxValue = total;
+
+            int diff = y[i] - x[i];
+            int plus = y[i] + x[i];
+
+            if(!q.isEmpty()){
+                int eq = plus + q.peek()[1];
+                ans = Math.max(ans, eq);
             }
+
+            while(!q.isEmpty() && q.getLast()[1] < diff){
+                q.removeLast();
+            }
+
+            q.add(new int[]{x[i],diff});
         }
-        return maxValue;
+        return ans;
     }
 }
+class Solution5{
+    List<List<Integer>> graph;
+    int[] dp;
+    boolean[] visit;
+    public int solution(int N,int[][] stones){
+        graph = new ArrayList<>();
+        for (int i = 0; i < N; i++) {
+            graph.add(new ArrayList<>());
+        }
 
-class Solution5 {
-    boolean[][] map;
-    public int solution(int N, int[][] stones) {
-        map = new boolean[N][N];
-        int[] rows = new int[N];
-        int[] cols = new int[N];
-        int total = stones.length;
         for(int[] stone:stones){
-            int row = stone[0];
-            int col = stone[1];
-            rows[row]++;
-            cols[col]++;
-            map[row][col] = true;
+            graph.get(stone[0]).add(stone[1]);
         }
-        int cnt = 0;
-        while(total >0){
-            int highRowIdx = 0,rowMax =0;
-            int highColIdx =0,colMax = 0;
+        dp = new int[N];
+        Arrays.fill(dp, -1);
 
-            for (int i = 0; i < N; i++) {
-                if(rows[i]+countCol(i) > rowMax){
-                    highRowIdx = i;
-                    rowMax = rows[highRowIdx]+countCol(highRowIdx);
-                }
-            }
-            for(int i = 0; i< N; i++){
-                if(cols[i]+countRow(i) > colMax){
-                    highColIdx = i;
-                    colMax = cols[highColIdx]+countRow(highColIdx);
-                }
-            }
-            if(rowMax > colMax){
-                total -= rows[highRowIdx];
-                rows[highRowIdx] = 0;
-                eraseColByRow(highRowIdx,cols);
-            }else{
-                total -= cols[highColIdx];
-                cols[highColIdx] = 0;
-                // 관련된 세로줄 지우기
-                eraseRowByCol(highColIdx,rows);
-            }
-            cnt++;
+        int count = 0;
+        for (int i = 0; i < N; i++) {
+            visit = new boolean[N];
+            count += dfs(i);
         }
-        return cnt;
+        return count;
     }
-   public void eraseColByRow(int row,int[] cols){
-       for (int i = 0; i < map.length; i++) {
-           if(map[row][i]){
-               cols[i]--;
-               map[row][i] = false;
-           }
-       }
-   }
-   public void eraseRowByCol(int col,int[] rows){
-       for (int i = 0; i < map.length; i++) {
-           if(map[i][col]){
-               rows[i]--;
-               map[i][col] = false;
-           }
-       }
-   }
 
-    public int countCol(int row){
-        int cnt =0;
-        for (int i = 0; i < map.length; i++) {
-            if(map[row][i])cnt++;
+    int dfs(int node){
+        if(visit[node]){
+            return 0;
         }
-        return cnt;
-    }
-    public int countRow(int col){
-        int cnt = 0;
-        for (int i = 0; i < map.length; i++) {
-            if(map[i][col]) cnt++;
+        visit[node] = true;
+        for(int i: graph.get(node)){
+            if(dp[i] == -1 || dfs(dp[i]) == 1){
+                dp[i] = node;
+                return 1;
+            }
         }
-        return cnt;
+        return 0;
     }
 }
