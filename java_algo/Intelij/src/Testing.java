@@ -1,135 +1,125 @@
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class Testing{
     public static void main(String[] args) {
+        Solution s5 = new Solution();
+        String s = "zerobase is awesome";
+        String t = "games are fine";
+        String[][] arr = {{"zerobase", "courses"}, {"is", "am"}, {"are", "am"}, {"awesome", "fine"}, {"fine", "great"}};
+        System.out.println(s5.solution(s,t,arr));
 
     }
 }
 
-class Solution1 {
-    public int solution(int[] food) {
-        int[] sorted = Arrays.stream(food)
-                .boxed()
-                .sorted(Collections.reverseOrder())
-                .mapToInt(Integer::intValue)
-                .toArray();
+class Solution {
+    Map<String,String> graph = new HashMap<>();
+    Map<String,ArrayList<String>> graphReverse = new HashMap<>();
+    void init(String[][] similarWords){
+        for(String[] s : similarWords){
+            //정방향
+            graph.put(s[0],s[1]);
+            //역방향
+            if(!graphReverse.containsKey(s[1])){
+                graphReverse.put(s[1],new ArrayList<>());
+            }
+            graphReverse.get(s[1]).add(s[0]);
+        }
+    }
+    public int solution(String s, String t, String[][] similarWords) {
+        init(similarWords);
+        String[] ss = s.split(" ");
+        String[] tt = t.split(" ");
+        int total = 0;
+        for (int i = 0; i < ss.length; i++) {
+            List<String> cur = new ArrayList<>();
+            String s1 = graph.get(ss[i]);
+            while(true){
+                if(s1 == null) break;
+                cur.add(s1);
+                s1 = graph.get(s1);
+            }
 
-        int count = 0;
-        int currentFood = sorted[0];
-        for (int i = 1; i < sorted.length; i++) {
-            int newFood = sorted[i];
-            if(newFood < currentFood){
-                currentFood -= newFood;
-                count += newFood;
+            ArrayList<String> strings = graphReverse.get(tt[i]);
+
+        }
+
+        return total;
+    }
+}
+class Solution2 {
+    public int solution(int[][] x, int[][] y) {
+        Queue<int[]> xQ = new LinkedList<>(Arrays.asList(x));
+        Queue<int[]> yQ = new LinkedList<>(Arrays.asList(y));
+        int total = 0;
+        while(!xQ.isEmpty() && !yQ.isEmpty()){
+            int xPeek = xQ.peek()[0];
+            int yPeek = yQ.peek()[0];
+            if(xPeek == yPeek){
+                var xPoll = xQ.poll();
+                var yPoll = yQ.poll();
+                total += xPoll[1]*yPoll[1];
+            }else if(xPeek > yPeek){
+                yQ.poll();
             }else{
-                count += currentFood;
-                currentFood = newFood-currentFood;
+                xQ.poll();
             }
         }
-        count += currentFood;
-        return count;
+        return total;
     }
 }
-class Solution2{
-    public int solution(int n) {
-        int second = 0,third = 0,fifth=0;
-        int[] dp = new int[n];
-        dp[0] = 1;
-        for (int i = 1; i < n; i++) {
-            int m2 = 2*dp[second];
-            int m3 = 3*dp[third];
-            int m5 = 5*dp[fifth];
-
-            dp[i] = Math.min(m2,Math.min(m3,m5));
-            if(dp[i] == m2){
-                second++;
-            }
-            if(dp[i] == m3){
-                third++;
-            }
-            if(dp[i] == m5){
-                fifth++;
-            }
+class Solution3 {
+    public int solution(int[][] activity) {
+        Queue<int[]> q = new PriorityQueue<>((x,y) -> x[0]-y[0]);
+        for (int[] x : activity) {
+            q.offer(x);
         }
-        return dp[n-1];
+        int total = 0;
+        while(!q.isEmpty()){
+            Queue<int[]> w = new PriorityQueue<>((x,y) -> x[0]-y[0]);
+            int cur = 0;
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                int[] poll = q.peek();
+                if(cur <= poll[0]) cur = poll[1];
+                else{
+                    w.add(poll);
+                }
+            }
+            total++;
+            q=w;
+        }
+        return total;
     }
 }
-class Solution3{
-    public String solution(int[][] points) {
-        int x1 = points[0][0], y1 = points[0][1];
-        int x2 = points[1][0], y2 = points[1][1];
-        int x3 = points[2][0], y3 = points[2][1];
-
-        int val = (x1*y2+x2*y3+x3*y1) - (x2*y1+x3*y2+x1*y3);
-
-        if(val == 0) return "LINE";
-        else if (val > 0) return "CCW";
-        else return "CW";
-    }
-}
-class Solution4{
-    public int solution(int[] x,int[] y,int k){
-        Deque<int[]> q = new ArrayDeque<>();
-        int ans = Integer.MIN_VALUE;
-
-        for (int i = 0; i < x.length; i++) {
-            while(!q.isEmpty() && q.peek()[0] + k < x[i]){
-                q.remove();
-            }
-
-            int diff = y[i] - x[i];
-            int plus = y[i] + x[i];
-
-            if(!q.isEmpty()){
-                int eq = plus + q.peek()[1];
-                ans = Math.max(ans, eq);
-            }
-
-            while(!q.isEmpty() && q.getLast()[1] < diff){
-                q.removeLast();
-            }
-
-            q.add(new int[]{x[i],diff});
-        }
-        return ans;
-    }
-}
-class Solution5{
-    List<List<Integer>> graph;
-    int[] dp;
-    boolean[] visit;
-    public int solution(int N,int[][] stones){
-        graph = new ArrayList<>();
-        for (int i = 0; i < N; i++) {
-            graph.add(new ArrayList<>());
-        }
-
-        for(int[] stone:stones){
-            graph.get(stone[0]).add(stone[1]);
-        }
-        dp = new int[N];
-        Arrays.fill(dp, -1);
-
-        int count = 0;
-        for (int i = 0; i < N; i++) {
-            visit = new boolean[N];
-            count += dfs(i);
-        }
-        return count;
+class Solution4 {
+    List<String> list = new ArrayList<>(Arrays.asList("0", "1", "8"));
+    char[][] pair = { {'1', '1'}, {'8', '8'}, {'6', '9'}, {'9', '6'} };
+    public String[] solution(int n) {
+        List<String> dfs = dfs(n, n);
+        Collections.sort(dfs);
+        return dfs.toArray(new String[0]);
     }
 
-    int dfs(int node){
-        if(visit[node]){
-            return 0;
+    public List<String> dfs(int k,int n){
+        if (k<=0){
+            return new ArrayList<>(List.of(""));
         }
-        visit[node] = true;
-        for(int i: graph.get(node)){
-            if(dp[i] == -1 || dfs(dp[i]) == 1){
-                dp[i] = node;
-                return 1;
+        if(k == 1){
+            return list;
+        }
+        List<String> subList = dfs(k-2,n);
+        List<String> result = new ArrayList<>();
+
+        for(String str : subList){
+            if( k!= n){
+                result.add("0"+str+"0");
+            }
+            for(char[] a : pair){
+                result.add(a[0]+str+a[1]);
             }
         }
-        return 0;
+        return result;
     }
 }
