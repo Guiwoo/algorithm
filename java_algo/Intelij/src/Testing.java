@@ -1,125 +1,83 @@
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.LinkedList;
+import java.util.Queue;
 
 public class Testing{
     public static void main(String[] args) {
-        Solution s5 = new Solution();
-        String s = "zerobase is awesome";
-        String t = "games are fine";
-        String[][] arr = {{"zerobase", "courses"}, {"is", "am"}, {"are", "am"}, {"awesome", "fine"}, {"fine", "great"}};
-        System.out.println(s5.solution(s,t,arr));
+        Solution2222 s2 = new Solution2222();
+        int[][] d = {{1, 5}, {8, 3}, {4, 2}, {2, 3}, {3,1},{3,2},{4,2},{5, 2}, {4, 1}};
+        int solution = s2.Solution(3, d);
+        System.out.println(solution);
 
     }
 }
 
-class Solution {
-    Map<String,String> graph = new HashMap<>();
-    Map<String,ArrayList<String>> graphReverse = new HashMap<>();
-    void init(String[][] similarWords){
-        for(String[] s : similarWords){
-            //정방향
-            graph.put(s[0],s[1]);
-            //역방향
-            if(!graphReverse.containsKey(s[1])){
-                graphReverse.put(s[1],new ArrayList<>());
-            }
-            graphReverse.get(s[1]).add(s[0]);
-        }
-    }
-    public int solution(String s, String t, String[][] similarWords) {
-        init(similarWords);
-        String[] ss = s.split(" ");
-        String[] tt = t.split(" ");
-        int total = 0;
-        for (int i = 0; i < ss.length; i++) {
-            List<String> cur = new ArrayList<>();
-            String s1 = graph.get(ss[i]);
-            while(true){
-                if(s1 == null) break;
-                cur.add(s1);
-                s1 = graph.get(s1);
-            }
-
-            ArrayList<String> strings = graphReverse.get(tt[i]);
-
+class Solution{
+    public int[] solution(int[] numbers,int[] start,int[] finish){
+        int len = start.length;
+        int[] answer = new int[len];
+        int[] prefix = new int[numbers.length];
+        prefix[0] = numbers[0];
+        for (int i = 1; i < numbers.length; i++) {
+            prefix[i] = numbers[i]+prefix[i-1];
         }
 
-        return total;
+        for(int i=0; i< len;i++){
+            int left = start[i];
+            int right = finish[i];
+            if(left == 0 || right == 0){
+                answer[i] = prefix[0];
+                continue;
+            }
+            answer[i] = prefix[right] - (prefix[left-1]);
+        }
+        return answer;
     }
 }
-class Solution2 {
-    public int solution(int[][] x, int[][] y) {
-        Queue<int[]> xQ = new LinkedList<>(Arrays.asList(x));
-        Queue<int[]> yQ = new LinkedList<>(Arrays.asList(y));
-        int total = 0;
-        while(!xQ.isEmpty() && !yQ.isEmpty()){
-            int xPeek = xQ.peek()[0];
-            int yPeek = yQ.peek()[0];
-            if(xPeek == yPeek){
-                var xPoll = xQ.poll();
-                var yPoll = yQ.poll();
-                total += xPoll[1]*yPoll[1];
-            }else if(xPeek > yPeek){
-                yQ.poll();
-            }else{
-                xQ.poll();
-            }
+
+class Solution2222 {
+    class DeliveryMan{
+        int row;
+        int col;
+        int tip;
+        int time;
+        public DeliveryMan(int row, int col, int tip, int time) {
+            this.row = row;
+            this.col = col;
+            this.tip = tip;
+            this.time = time;
         }
-        return total;
     }
-}
-class Solution3 {
-    public int solution(int[][] activity) {
-        Queue<int[]> q = new PriorityQueue<>((x,y) -> x[0]-y[0]);
-        for (int[] x : activity) {
-            q.offer(x);
-        }
-        int total = 0;
+    public int Solution(int r,int[][] delivery){
+        int[] dirs = {0,1,0,-1,0};
+        Queue<DeliveryMan> q = new LinkedList<>();
+        boolean[][][] visit = new boolean[r][r][2];
+        int highest = 0;
+        q.offer(new DeliveryMan(0,0,0,0));
+
         while(!q.isEmpty()){
-            Queue<int[]> w = new PriorityQueue<>((x,y) -> x[0]-y[0]);
-            int cur = 0;
-            int size = q.size();
-            for (int i = 0; i < size; i++) {
-                int[] poll = q.peek();
-                if(cur <= poll[0]) cur = poll[1];
-                else{
-                    w.add(poll);
+            DeliveryMan poll = q.poll();
+            int idx = poll.row * r + (poll.col % r);
+            if(poll.time > r*r) continue;
+
+            if(poll.time <= delivery[idx][0] && !visit[poll.row][poll.col][0]){
+                poll.tip+= delivery[idx][1];
+                visit[poll.row][poll.col][0] = true;
+            }
+            highest = Math.max(poll.tip, highest);
+
+            for (int i = 1; i < dirs.length; i++) {
+                int nRow = dirs[i-1];
+                int nCol = dirs[i];
+
+                if(nRow < 0 || nCol < 0 || nRow >= r || nCol >= r){
+                    continue;
                 }
+                q.offer(new DeliveryMan(nRow,nCol,poll.tip,poll.time+1));
             }
-            total++;
-            q=w;
         }
-        return total;
-    }
-}
-class Solution4 {
-    List<String> list = new ArrayList<>(Arrays.asList("0", "1", "8"));
-    char[][] pair = { {'1', '1'}, {'8', '8'}, {'6', '9'}, {'9', '6'} };
-    public String[] solution(int n) {
-        List<String> dfs = dfs(n, n);
-        Collections.sort(dfs);
-        return dfs.toArray(new String[0]);
+        return highest;
     }
 
-    public List<String> dfs(int k,int n){
-        if (k<=0){
-            return new ArrayList<>(List.of(""));
-        }
-        if(k == 1){
-            return list;
-        }
-        List<String> subList = dfs(k-2,n);
-        List<String> result = new ArrayList<>();
-
-        for(String str : subList){
-            if( k!= n){
-                result.add("0"+str+"0");
-            }
-            for(char[] a : pair){
-                result.add(a[0]+str+a[1]);
-            }
-        }
-        return result;
-    }
 }
+
+
