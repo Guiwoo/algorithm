@@ -1,4 +1,4 @@
-package programmers.Test05;
+package programmers.aurmmanagement.Test05;
 
 public class ShoppingCart {
     private Long id;

@@ -1,4 +1,4 @@
-package programmers.codingTest_1016;
+package programmers.aurmmanagement.codingTest_1016;
 
 public class Solution{
     public static void main(String[] args) {
