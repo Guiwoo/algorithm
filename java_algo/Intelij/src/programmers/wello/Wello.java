@@ -137,7 +137,3 @@ class Sol3{
         return answer;
     }
 }
-class Sol5{
-
-}
-
