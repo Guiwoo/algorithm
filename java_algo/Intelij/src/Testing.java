@@ -36,7 +36,6 @@ class Solution{
 
         for (int i = 0; i < answer.length-1; i++) {
             int target = caps[i];
-            if(target)
         }
 
         System.out.println(Arrays.toString(answer));
