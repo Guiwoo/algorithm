@@ -1,4 +1,4 @@
-package datastructure;
+package datastructure.myArrayList;
 
 public interface ArrayListInterface {
     // 뒤에부터 추가

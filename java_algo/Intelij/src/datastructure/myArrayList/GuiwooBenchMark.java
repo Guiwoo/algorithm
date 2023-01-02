@@ -1,4 +1,4 @@
-package datastructure;
+package datastructure.myArrayList;
 
 import org.openjdk.jmh.annotations.*;
 

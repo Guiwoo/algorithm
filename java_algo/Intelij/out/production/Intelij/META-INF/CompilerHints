@@ -3,5 +3,5 @@ dontinline,*.*_avgt_jmhStub
 dontinline,*.*_sample_jmhStub
 dontinline,*.*_ss_jmhStub
 dontinline,*.*_thrpt_jmhStub
-inline,datastructure/GuiwooBenchMark.arrayList
-inline,datastructure/GuiwooBenchMark.arrayListCustom
+inline,datastructure/myArrayList/GuiwooBenchMark.arrayList
+inline,datastructure/myArrayList/GuiwooBenchMark.arrayListCustom

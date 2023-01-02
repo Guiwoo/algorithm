@@ -1,4 +1,4 @@
-package datastructure;
+package datastructure.myArrayList;
 
 import java.io.IOException;
 
