@@ -157,6 +157,7 @@ public class GuiwooLinkedList implements LinkedListInterface {
         if(first == null) throw new NullPointerException();
         int value = first.data;
         first = first.next;
+        total--;
         return value;
     }
 
@@ -214,9 +215,7 @@ public class GuiwooLinkedList implements LinkedListInterface {
     }
 
     @Override
-    public int removeFirst() {
-        return this.pollFirst();
-    }
+    public int removeFirst() {return this.pollFirst();}
 
     @Override
     public int removeLast() {
