@@ -1,0 +1,13 @@
+###
+GET http://localhost:3000/users
+
+###
+POST http://localhost:3000/users
+
+{
+    "Name":"Guiwoo",
+    "email":"park"
+}
+
+###
+GET http://localhost:3000/hello
