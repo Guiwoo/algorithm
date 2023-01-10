@@ -1,6 +1,6 @@
 package leet.january;
 
-import leet.january.MaximumIceCreamBars.TreeNode;
+import leet.TreeNode;
 
 import java.util.ArrayList;
 import java.util.List;
